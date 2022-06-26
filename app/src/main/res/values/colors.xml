@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- MIS COLORINES -->
+    <color name="redAccent">#ff0000</color>
+    <color name="greenAccent">#2ffd64</color>
+    <color name="yellowAccent">#DDD487</color>
+    <color name="blueAccent">#8795DD</color>
+
+    <color name="tipo0">#002AFF</color>
+    <color name="tipo1">#F44336</color>
+    <color name="tipo2">#E91E63</color>
+    <color name="tipo3">#9C27B0</color>
+    <color name="tipo4">#673AB7</color>
+    <color name="tipo5">#3F51B5</color>
+    <color name="tipo6">#2196F3</color>
+    <color name="tipo7">#009688</color>
+    <color name="tipo8">#4CAF50</color>
+    <color name="tipo9">#CDDC39</color>
+    <color name="tipo10">#FF5722</color>
+    <color name="tipo11">#000000</color>
+    <color name="tipo12">#FF00F2</color>
+    <color name="tipo13">#4CFF00</color>
+    <color name="tipo14">#FF1E00</color>
+    <color name="tipo15">#00FFCC</color>
+    <color name="tipo16">#F6638D</color>
+
+    <color name="tipo17">#570000</color>
+
+</resources>

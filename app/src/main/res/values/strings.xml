@@ -1,0 +1,89 @@
+<resources>
+    <string name="app_name">Crypto Places</string>
+
+    <!-- SplashScreenActivity.java -->
+
+    <!-- Layout activity_splash_screen.xml -->
+    <string name="app_name_splash_screen">Crypto Places</string>
+    <string name="thanks_to_name_splash_screen">Gracias a:</string>
+
+
+    <!-- LoginActivity.java -->
+    <string name="Input_Error_field_empty">Este campo NO puede estar vacío</string>
+    <string name="Input_Error_email1">Correo NO válido</string>
+
+    <string name="Input_Error_contraseña1">Contraseña demasiado corta, al menos 8 caracteres</string>
+    <string name="Input_Error_contraseña2">Contraseña demasiado larga, hasta 20 caracteres</string>
+    <string name="Input_Error_contraseña3">La contraseña debe contener mayúsculas, minúsculas y cifras</string>
+
+    <string name="title_alertdialog1">ERROR AUTENTICACIÓN</string>
+    <string name="msg_alertdialog1">Se ha producido un error autenticando al usuario</string>
+    <string name="title_alertdialog2">CIERRE DE SESIÓN</string>
+    <string name="msg_alertdialog2">Se ha cerrado la sesión</string>
+    <string name="title_alertdialog3">NO HAY CONEXIÓN A INTERNET</string>
+    <string name="msg_alertdialog3">Comprueba la conexión a internet</string>
+    <string name="neutral_btn_alertdialog">Aceptar</string>
+
+    <!-- Layout activity_login.xml -->
+    <string name="login_activity_title">AUTENTICACIÓN</string>
+    <string name="hint_correo">Introduce tu correo</string>
+    <string name="hint_contraseña">Introduce tu contraseña</string>
+    <string name="BTN_registrar">REGISTRAR</string>
+    <string name="BTN_acceder">ACCEDER</string>
+    <string name="title_activity_google_maps">GoogleMapsActivity</string>
+
+
+    <!-- GoogleMapActivity.java -->
+    <string name="title_alertdialog_aboutus">Acerca de\ </string>
+    <string name="msg_alertdialog_aboutus">La aplicación permite encontrar comercios que aceptan criptomonedas como forma de pago, usando los mapas de Google y gracias a la API de Coinmap.org\n\nAplicación codificada y diseñada por: Andrés Goicoechea Enrique</string>
+    <string name="btn_alertdialog_aboutus">Entendido</string>
+    <string name="exit_app">Aplicación cerrada</string>
+    <string name="hint_searchview_name">Buscar comercio por nombre</string>
+
+    <string name="title_alertdialog_activate_location">Activar localización</string>
+    <string name="msg_alertdialog_activate_location">La localización esta \'Desactivada\'.\nPor favor, active la localización para usar la app</string>
+    <string name="btn_positive_alertdialog_activate_location">Configuración de ubicación</string>
+    <string name="btn_negative_alertdialog_activate_location">Cancelar</string>
+    <string name="toast_negative_alertdialog_activate_location">No se activo la localización</string>
+
+    <string name="toast_btn_centrar_ubicacion">Calculando ubicación actual ...</string>
+
+    <string name="marker_snippet_text">Categoria:\ </string>
+
+    <string name="toast_calculando_ruta">Calculando ruta ...</string>
+
+    <string name="toast_error_peticion_coinmap">Error en la petición a Coinmap:\ </string>
+    <string name="toast_error_peticion_google">Error en la petición a Google:\ </string>
+
+    <string name="toast_error_coordenadas_origen_null">Error, activa la localización</string>
+    <string name="toast_error_coordenadas_destino_null">Error, selecciona un establecimiento</string>
+
+
+    <!-- Layout activity_google_maps.xml -->
+
+    <string name="nombreRuta_tv">RUTA ACTUAL</string>
+    <string name="distancia_tv">Distancia:\ </string>
+    <string name="duracion_tv">Duración:\ </string>
+
+    <!-- google_maps_menu.xml -->
+
+    <string name="buscar_ruta">Buscar ruta</string>
+    <string name="mi_ubicacion_actual">Actualizar tiendas</string>
+    <string name="search">Buscar tienda</string>
+    <string name="aboutUS">Acerca de</string>
+    <string name="exit">Salir de la app</string>
+
+
+    <!-- PermissionUtils.java -->
+    <string name="location_permission_denied">La app necesita permisos para usar la localización para mostrar los mapas de Google Maps.</string>
+    <string name="permission_required_toast">El permiso de localización es necesario para esta app</string>
+    <string name="permission_rationale_location">Se requiere acceso al servicio de ubicación para demostrar la función \'mi ubicación\', que muestra su ubicación actual en el mapa.</string>
+
+
+
+    <!-- ExampleActivity.java -->
+
+    <!-- Layout activity_example.xml -->
+
+
+</resources>
