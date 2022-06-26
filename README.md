@@ -1,4 +1,4 @@
-# Proyecto Fin de Master Crypto-Places
+# Proyecto Fin de Master Crypto Places
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Aplicación Android que facilita la búsqueda y localización de estos puntos geograficos (tiendas, cafeterias, cajeros, etc) donde los clientes puedan pagar con criptomonedas. Y de este modo, cualquier persona con la aplicación, podrá consultar los establecimientos más cercanos a su ubicación actual, o si lo prefiere, también puede comprobar, a través de una serie de filtros (nombre establecimiento, categoría, país, …), si un establecimiento acepta pagos con criptomonedas.
