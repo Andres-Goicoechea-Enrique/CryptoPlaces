@@ -7,7 +7,7 @@ Aplicación Android que facilita la búsqueda y localización de estos puntos ge
 # Herramientas, tecnologías y plataformas usadas
 Esta aplicación para dispositivos Android se va a desarrollar a través del entorno de desarrollo Android Studio, haciendo uso de la plataforma Firebase para la parte de autenticación de usuarios y como gestor de bases de datos. También se utilizarán varias claves APIs de Google para mostrar en un mapa los establecimientos y generar diferentes rutas hacia ellos. Asimismo, se hará uso de la API Rest de Coinmap, la cual proporcionará todos los datos de los establecimientos que aceptan criptomonedas como forma de pago. Y por último, otra API, del exchange de criptomonedas KRAKEN, mediante la cual se mostrará el balance de criptomonedas asociado de una cuenta del exchange en la aplicación móvil.
 
-- Android Studio Chipmunk | 2021.2.1  :shipit:
+- Android Studio Chipmunk | 2021.2.1 :shipit:  
   Build #AI-212.5712.43.2112.8512546, built on April 28, 2022  
   Runtime version: 11.0.12+7-b1504.28-7817840 amd64  
   VM: OpenJDK 64-Bit Server VM by Oracle Corporation  
