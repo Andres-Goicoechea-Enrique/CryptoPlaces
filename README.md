@@ -18,7 +18,8 @@ Esta aplicación para dispositivos Android se va a desarrollar a través del ent
 
 - APIs Google (Maps SDK for Android y Directions API)
   La clave para poder usar estas APIs NO esta incluida en este repositorio, esto se debe a motivos economicos y de seguridad.
-  Por lo que si se desea usar este codigo, se debe crear una API de Google en Google CLoud Platform. 
+  Por lo que si se desea usar este codigo, se debe crear una API de Google en Google CLoud Platform.  
+  Añadir la clave API en 'app/src/main/res/values/google_maps_api.xml'
   
   Enlace a un ejemplo para obtener dicha clave:
   https://www.youtube.com/watch?v=brCkpzAD0gc
