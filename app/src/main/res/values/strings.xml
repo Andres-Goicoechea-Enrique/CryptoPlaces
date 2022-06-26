@@ -16,6 +16,8 @@
     <string name="Input_Error_contraseña2">Contraseña demasiado larga, hasta 20 caracteres</string>
     <string name="Input_Error_contraseña3">La contraseña debe contener mayúsculas, minúsculas y cifras</string>
 
+    <string name="Input_Error_fields">Datos introducidos NO válidos.</string>
+
     <string name="title_alertdialog1">ERROR AUTENTICACIÓN</string>
     <string name="msg_alertdialog1">Se ha producido un error autenticando al usuario</string>
     <string name="title_alertdialog2">CIERRE DE SESIÓN</string>

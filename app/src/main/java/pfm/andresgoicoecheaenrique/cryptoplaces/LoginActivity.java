@@ -25,6 +25,10 @@ import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String ACCION_REGISTRAR = "reg";
+    private static final String ACCION_ACCEDER = "acc";
+
+
     private EditText correoUsuario, contraseñaUsuario;
     //private Button registrarBTN, accederBTN;
     private AlertDialog alert;
@@ -46,8 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         //Borrar datos introducidos inicialmente
         if(mAuth.getCurrentUser() != null){
             mAuth.signOut();
-            alert = crearAlert(LoginActivity.this, 1);
-            alert.show();
+            crearAlert(1);
         }
         correoUsuario.setText("");
         contraseñaUsuario.setText("");
@@ -63,49 +66,53 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void registrarBTN(View view) {
-
-        if(checkInternetConnection() && validarCampos()){
-            mAuth.createUserWithEmailAndPassword(correoUsuario.getText().toString(), contraseñaUsuario.getText().toString())
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                moverMainActivity();
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                alert = crearAlert(LoginActivity.this, 0);
-                                alert.show();
-                            }
-                        }
-                    });
-        }
-        else{
-            alert = crearAlert(LoginActivity.this, 2);
-            alert.show();
-        }
+        checkCondiciones(ACCION_REGISTRAR);
     }
 
     public void accederBTN(View view) {
-        if(checkInternetConnection() && validarCampos()){
-            mAuth.signInWithEmailAndPassword(correoUsuario.getText().toString(), contraseñaUsuario.getText().toString())
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                moverMainActivity();
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                alert = crearAlert(LoginActivity.this, 0);
-                                alert.show();
-                            }
-                        }
-                    });
+        checkCondiciones(ACCION_ACCEDER);
+    }
+
+    private void checkCondiciones(String btn){
+        if(checkInternetConnection()){
+            if(validarCampos()){
+                if(btn.equals(ACCION_REGISTRAR)){// registrarBTN
+                    mAuth.createUserWithEmailAndPassword(correoUsuario.getText().toString(), contraseñaUsuario.getText().toString())
+                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        moverMainActivity();
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        crearAlert(0);
+                                    }
+                                }
+                            });
+                }
+                else{// accederBTN
+                    mAuth.signInWithEmailAndPassword(correoUsuario.getText().toString(), contraseñaUsuario.getText().toString())
+                            .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        // Sign in success, update UI with the signed-in user's information
+                                        moverMainActivity();
+                                    } else {
+                                        // If sign in fails, display a message to the user.
+                                        crearAlert(0);
+                                    }
+                                }
+                            });
+                }
+            }
+            else{// campos invalidos
+                mostrarToast(getResources().getString(R.string.Input_Error_fields));
+            }
         }
-        else{
-            alert = crearAlert(LoginActivity.this, 2);
-            alert.show();
+        else{// No internet
+            crearAlert(2);
         }
     }
 
@@ -162,8 +169,8 @@ public class LoginActivity extends AppCompatActivity {
         return resul;
     }
 
-    private AlertDialog crearAlert(LoginActivity activity, int code) {
-        AlertDialog.Builder constructor = new AlertDialog.Builder(activity);
+    private void crearAlert(int code) {
+        AlertDialog.Builder constructor = new AlertDialog.Builder(LoginActivity.this);
         constructor.setCancelable(true);
         if(code == 0){
             constructor.setTitle(getResources().getString(R.string.title_alertdialog1));
@@ -181,7 +188,7 @@ public class LoginActivity extends AppCompatActivity {
             constructor.setNeutralButton(getResources().getString(R.string.neutral_btn_alertdialog), null);
         }
 
-        return constructor.create();
+        constructor.create().show();
     }
 
     private void moverMainActivity(){
