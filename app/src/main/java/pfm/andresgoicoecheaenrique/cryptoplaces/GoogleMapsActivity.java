@@ -208,6 +208,12 @@ public class GoogleMapsActivity extends AppCompatActivity
             //mejor añadir un search view o mostrar un searchview
             //activity//O quitar
             mostrarToast("SIN IMPLEMENTAR");
+            if(map.getMapType() == GoogleMap.MAP_TYPE_NORMAL){
+                map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+            }
+            else{
+                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            }
         }
         return true;
     }
@@ -361,10 +367,7 @@ public class GoogleMapsActivity extends AppCompatActivity
     }
     // comprobar si hay conexion a internet antes de hacer peticiones Volley
     private void checkInternetConnection(){
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-        if(isConnected){
+        if(isInternetEnabled()){
             if(venuesAL.size() != 0){
                 map.clear();
                 venuesAL.clear();
@@ -374,6 +377,12 @@ public class GoogleMapsActivity extends AppCompatActivity
         else{
             crearAlert( 2);
         }
+    }
+    // Comprobar si hay conexion a internet
+    private boolean isInternetEnabled() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
     // Funcion para crear alertas y reducir codigo
     private void crearAlert(int code) {
@@ -508,13 +517,19 @@ public class GoogleMapsActivity extends AppCompatActivity
 
     /**
      * Centrar camara sobre nuestra posicion actual, simepre y cuando tengamos la ubicacion activada
+     * y acceso a internet
      *
      * @return false
      */
     @Override
     public boolean onMyLocationButtonClick() {
+        if(isLocationEnabled() && isInternetEnabled()){
+            mostrarToast(getResources().getString(R.string.toast_btn_centrar_ubicacion));
+        }
         checkLocation();
-        mostrarToast(getResources().getString(R.string.toast_btn_centrar_ubicacion));
+        if(!isInternetEnabled()){
+            crearAlert(2);
+        }
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
         return false;

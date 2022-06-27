@@ -118,8 +118,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean validarCampos() {
         boolean resul = false;
+        boolean correo = validarCorreo();
+        boolean contra = validarContraseña();
 
-        if(validarCorreo() && validarContraseña()){
+        if(correo && contra){
             resul = true;
         }
 
