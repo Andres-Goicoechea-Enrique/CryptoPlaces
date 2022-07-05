@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GoogleMapsActivity">
+    tools:context=".LoginActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -28,6 +28,15 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="@string/app_name"
             app:titleMarginStart="10dp" />
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            android:visibility="gone"
+            app:iconifiedByDefault="false"
+            app:queryHint="@string/hint_searchview_name" />
 
         <!-- App Views -->
         <HorizontalScrollView
@@ -100,9 +109,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:elevation="10dp"
-            android:visibility="gone">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/nombreRuta"
@@ -144,126 +151,22 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!--SEARCHVIEW-->
-        <LinearLayout
-            android:id="@+id/search_and_num_id_LL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchView_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:elevation="4dp"
-                app:iconifiedByDefault="false"
-                app:queryHint="@string/hint_searchview_name"
-                />
-            <TextView
-                android:id="@+id/cantidad_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/ligthPurpleAccent"
-                android:text="@string/cantidad1_tv"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:padding="5dp"
-                android:gravity="center"
-                />
-
-
-        </LinearLayout>
-
-        <!--CERCA-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cercaVenuesRV_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-        <!--FAVORITOS-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/favsVenuesRV_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-        <!--KRAKEN-->
-    <LinearLayout
-        android:id="@+id/kraken_id_LL"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/sin_APIs_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/ligthRedAccent2"
-            android:text="@string/no_data_tv"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:padding="5dp"
-            android:gravity="center"
-            android:visibility="gone"
-            />
-        <!--KRAKEN APIs-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/krakenAPIsRV_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-
-    </LinearLayout>
-        <!--ALL-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/allVenuesRV_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-
-    </LinearLayout>
-
-    <!--MAPA GOOGLE-->
-    <LinearLayout
-        android:id="@+id/linearLayoutGoogleMap"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
-        android:visibility="visible">
-
         <FrameLayout
             android:id="@+id/frameLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <fragment
                 android:id="@+id/map"
                 class="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="104dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="105dp"
+                android:layout_marginBottom="0dp" />
         </FrameLayout>
 
     </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingBTNAddKrakenAPI_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.921"
-        app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/ic_baseline_add_24"
-        android:visibility="gone"
-        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

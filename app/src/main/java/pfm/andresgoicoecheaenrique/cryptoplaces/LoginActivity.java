@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -27,6 +28,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String ACCION_REGISTRAR = "reg";
     private static final String ACCION_ACCEDER = "acc";
+
+    private SharedPreferences sharedPrefs;
+    private static final String mypreference = "CryptoPlaces";
 
 
     private EditText correoUsuario, contraseñaUsuario;
@@ -74,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkCondiciones(String btn){
-        if(checkInternetConnection()){
+        if(CommonUtils.isInternetEnabled(this)){
             if(validarCampos()){
                 if(btn.equals(ACCION_REGISTRAR)){// registrarBTN
                     mAuth.createUserWithEmailAndPassword(correoUsuario.getText().toString(), contraseñaUsuario.getText().toString())
@@ -108,7 +112,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
             else{// campos invalidos
-                mostrarToast(getResources().getString(R.string.Input_Error_fields));
+                CommonUtils.mostrarToast(getResources().getString(R.string.Input_Error_fields), this);
+                //mostrarToast(getResources().getString(R.string.Input_Error_fields));
             }
         }
         else{// No internet
@@ -199,32 +204,25 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
         else{
+            sharedPrefs = getSharedPreferences(mypreference, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPrefs.edit();
+            editor.putString("email", correoUsuario.getText().toString());
+            editor.putString("passw", contraseñaUsuario.getText().toString());
             Intent intent = new Intent(LoginActivity.this, GoogleMapsActivity.class);
             startActivity(intent);
         }
-    }
-
-    private boolean checkInternetConnection(){
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-        return isConnected;
     }
 
     private boolean isGooglePlayServicesAvailable(){
         boolean resul = true;
         GoogleApiAvailability gApi = GoogleApiAvailability.getInstance();
         int resultCode = gApi.isGooglePlayServicesAvailable(this);
-        mostrarToast(""+resultCode);//quitar
+        CommonUtils.mostrarToast(""+resultCode,this);//quitar
         if (resultCode != ConnectionResult.SUCCESS) {
-            mostrarToast("toast_playservices_unrecoverable");
+            CommonUtils.mostrarToast("toast_playservices_unrecoverable",this);
             resul = false;
         }
         return resul;
     }
 
-    // Mostrar un toast corto
-    private void mostrarToast(String msj){
-        Toast.makeText(this, msj, Toast.LENGTH_SHORT).show();
-    }
 }

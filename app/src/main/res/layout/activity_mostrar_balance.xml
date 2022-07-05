@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Kraken.MostrarBalanceActivity">
+
+    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/mostrar_balance_main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_500"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:menu="@menu/mostrar_balance_menu"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="@string/toolbar_title"
+        app:titleMarginEnd="10dp"
+        app:titleMarginStart="10dp" />
+
+    <!--SEARCHVIEW-->
+    <LinearLayout
+        android:id="@+id/search_and_num_id_LL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/mostrarBalance_SV_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            app:iconifiedByDefault="false"
+            app:queryHint="@string/hint_searchview_crypto_type" />
+
+        <TextView
+            android:id="@+id/mostrarBalance_cantidad_types_cryptos_TV_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ligthPurpleAccent"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/cantidad1_tv"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/mostrarBalance_no_cryptos_TV_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ligthRedAccent2"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/error_no_cryptos_tv"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+    <!--KRAKEN API CRYPTOS-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mostrarBalance_krakenCryptos_RV_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

@@ -7,7 +7,31 @@
         <entry key="..\:/Users/Andres/AndroidStudioProjects/0_Proyecto_TFM/CryptoPlaces/app/src/main/res/layout/activity_login.xml" value="0.18478260869565216" />
         <entry key="..\:/Users/Andres/AndroidStudioProjects/0_Proyecto_TFM/CryptoPlaces/app/src/main/res/layout/activity_splash_screen.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Andres/AndroidStudioProjects/0_Proyecto_TFM/CryptoPlaces/app/src/main/res/menu/google_maps_menu.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/drawable-v24/ic_baseline_refresh_24.xml" value="0.349" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/drawable-v24/ic_buscar_ruta.xml" value="0.349" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/drawable/border.xml" value="0.349" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/drawable/border2.xml" value="0.349" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/drawable/btn_slector_bg.xml" value="0.349" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/drawable/ic_baseline_call_24.xml" value="0.349" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/drawable/ic_baseline_favorite_24.xml" value="0.242" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.242" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/drawable/ic_baseline_map_24.xml" value="0.349" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/drawable/toogle_selector.xml" value="0.242" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/drawable/toogle_selector_fav.xml" value="0.349" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/layout/activity_google_maps.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/layout/activity_mostrar_balance.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/layout/activity_splash_screen.xml" value="0.1" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/layout/dialog_fragment_new_exchange_api.xml" value="0.35260416666666666" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/layout/dialog_fragment_venue_info.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/layout/fragment_maps.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/layout/item_list_api_rv.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/layout/item_list_crypto_rv.xml" value="0.4" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/layout/item_list_venue_rv.xml" value="0.365625" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/layout/test_map.xml" value="0.365625" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/layout/toogle_selector.xml" value="0.253125" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/menu/google_maps_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Andres/Desktop/GITHUB/CryptoPlaces/app/src/main/res/menu/mostrar_balance_menu.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

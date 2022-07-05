@@ -4,11 +4,30 @@
 
 
     <item
-        android:id="@+id/buscar_ruta"
-        android:title="@string/buscar_ruta"
-        android:icon="@drawable/ic_buscar_ruta"
+        android:id="@+id/cambiar_mapa"
+        android:title="@string/cambiar_mapa"
+        android:icon="@drawable/ic_baseline_map_24"
         app:showAsAction="ifRoom"
-        />
+        >
+        <menu>
+            <item
+                android:id="@+id/map_type_1"
+                android:title="@string/map_type_1"
+                />
+            <item
+                android:id="@+id/map_type_2"
+                android:title="@string/map_type_2"
+                />
+            <item
+            android:id="@+id/map_type_3"
+            android:title="@string/map_type_3"
+            />
+            <item
+                android:id="@+id/map_type_4"
+                android:title="@string/map_type_4"
+                />
+        </menu>
+    </item>
     <item
         android:id="@+id/refresh"
         android:title="@string/mi_ubicacion_actual"

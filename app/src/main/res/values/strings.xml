@@ -49,8 +49,9 @@
     <string name="toast_negative_alertdialog_activate_location">No se activo la localización</string>
 
     <string name="toast_btn_centrar_ubicacion">Calculando ubicación actual ...</string>
+    <string name="toast_cambiar_mapa">Cargando nuevo mapa</string>
 
-    <string name="marker_snippet_text">Categoria:\ </string>
+    <string name="marker_snippet_text">Categoría:\ </string>
 
     <string name="toast_calculando_ruta">Calculando ruta ...</string>
 
@@ -63,17 +64,40 @@
 
     <!-- Layout activity_google_maps.xml -->
 
+    <string name="btn_mapa_txt">MAPA</string>
+    <string name="btn_cerca_txt">CERCA</string>
+    <string name="btn_favs_txt">FAVORITOS</string>
+    <string name="btn_kraken_txt">KRAKEN</string>
+    <string name="btn_all_txt">TODOS</string>
+
+    <string name="cantidad1_tv">Cantidad:\ </string>
+    <string name="cantidad2_tv">\ lugares</string>
+    <string name="cantidad3_apis_tv">\ apis</string>
+
+    <string name="cantidad2_cryptos_tv">\ criptomonedas</string>
+
+    <string name="no_data_tv">No se ha configurado ninguna API de Kraken!</string>
+
     <string name="nombreRuta_tv">RUTA ACTUAL</string>
     <string name="distancia_tv">Distancia:\ </string>
     <string name="duracion_tv">Duración:\ </string>
 
     <!-- google_maps_menu.xml -->
 
-    <string name="buscar_ruta">Buscar ruta</string>
+    <string name="cambiar_mapa">Cambiar mapa</string>
+    <string name="map_type_1">MAPA NOMRAL</string>
+    <string name="map_type_2">MAPA SATELITE</string>
+    <string name="map_type_3">MAPA HÍBRIDO</string>
+    <string name="map_type_4">MAPA TERRENO</string>
+
     <string name="mi_ubicacion_actual">Actualizar tiendas</string>
     <string name="search">Buscar tienda</string>
     <string name="aboutUS">Acerca de</string>
     <string name="exit">Salir de la app</string>
+
+    <!-- mostrar_balance_menu.xml -->
+
+    <string name="cerrar_vista">Cerrar</string>
 
 
     <!-- PermissionUtils.java -->
@@ -81,6 +105,49 @@
     <string name="permission_required_toast">El permiso de localización es necesario para esta app</string>
     <string name="permission_rationale_location">Se requiere acceso al servicio de ubicación para demostrar la función \'mi ubicación\', que muestra su ubicación actual en el mapa.</string>
 
+
+    <!-- DialogFragmentVenueInfo.java -->
+    <string name="call_Error_number">Número de teléfono NO válido</string>
+    <string name="BTN_close">CERRAR</string>
+    <string name="share_asunto">Este sitio admite pagos con criptomonedas!!!</string>
+
+
+    <!-- Layout dialog_fragment_venue_info.xml -->
+    <string name="hint_categoriaVenue"><u>Categoría:</u></string>
+    <string name="hint_paisVenue"><u>País:</u></string>
+    <string name="hint_dateCreationVenue"><u>Creado:</u></string>
+    <string name="hint_dateUpdateVenue"><u>Actualizado:</u></string>
+
+
+    <!-- MostrarBalanceActivity.java -->
+
+    <!-- Layout activity_mostrar_balance.xml -->
+    <string name="toolbar_title">BALANCE API</string>
+    <string name="hint_searchview_crypto_type">Buscar criptomoneda por etiqueta</string>
+    <string name="error_no_cryptos_tv">NO SE HA PODIDO CARGAR LOS DATOS</string>
+
+
+    <!-- DialogFragmentNewExchangeAPI.java -->
+
+    <!-- Layout DialogFragmentNewExchangeAPI.xml -->
+    <string name="title_df_new_api">CREAR NUEVA API</string>
+    <string name="BTN_crear">CREAR</string>
+    <string name="hint_nombreAPI">Asigna un nombre</string>
+    <string name="hint_keyAPI">Introduce la clave API</string>
+    <string name="hint_secretAPI">Introduce la clave Secreta</string>
+
+
+
+
+
+    <!-- ExampleActivity.java -->
+
+    <!-- Layout activity_example.xml -->
+
+
+    <!-- ExampleActivity.java -->
+
+    <!-- Layout activity_example.xml -->
 
 
     <!-- ExampleActivity.java -->

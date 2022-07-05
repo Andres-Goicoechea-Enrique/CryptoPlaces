@@ -13,6 +13,13 @@
     <color name="greenAccent">#2ffd64</color>
     <color name="yellowAccent">#DDD487</color>
     <color name="blueAccent">#8795DD</color>
+    <color name="purpleAccent">#DD87C0</color>
+    <color name="ligthRedAccent">#DD8787</color>
+    <color name="greyAccent">#6A5D5D</color>
+    <color name="ligthGreyAccent">#9C8C8C</color>
+    <color name="ligthBlueAccent">#2196F3</color>
+    <color name="ligthPurpleAccent">#E28192FF</color>
+    <color name="ligthRedAccent2">#FD4B4B</color>
 
     <color name="tipo0">#002AFF</color>
     <color name="tipo1">#F44336</color>
