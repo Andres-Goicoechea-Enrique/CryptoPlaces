@@ -30,7 +30,7 @@
     <string name="login_activity_title">AUTENTICACIÓN</string>
     <string name="hint_correo">Introduce tu correo</string>
     <string name="hint_contraseña">Introduce tu contraseña</string>
-    <string name="BTN_registrar">REGISTRAR</string>
+    <string name="BTN_registrar">REGISTRARSE</string>
     <string name="BTN_acceder">ACCEDER</string>
     <string name="title_activity_google_maps">GoogleMapsActivity</string>
     <string name="BTN_reset_login">¿Olvidaste la contraseña?</string>
@@ -109,7 +109,7 @@
     <string name="map_type_3">MAPA HÍBRIDO</string>
     <string name="map_type_4">MAPA TERRENO</string>
 
-   <!-- <string name="descargar_firebase_txt">Descargar lista de la nube</string>
+  <!--  <string name="descargar_firebase_txt">Descargar lista de la nube</string>
     <string name="subir_firebase_txt">Subir lista a la nube</string>-->
 
     <!--<string name="mi_ubicacion_actual">Actualizar tiendas</string>&lt;!&ndash;quitar&ndash;&gt;

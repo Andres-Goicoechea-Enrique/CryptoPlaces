@@ -1,0 +1,186 @@
+<resources>
+    <string name="app_name">Crypto Places</string>
+
+    <!-- SplashScreenActivity.java -->
+
+    <!-- Layout activity_splash_screen.xml -->
+    <string name="app_name_splash_screen">Crypto Places</string>
+    <string name="thanks_to_name_splash_screen">Thanks to:</string>
+
+
+    <!-- LoginActivity.java -->
+    <string name="Input_Error_field_empty">This field can NOT be empty</string>
+    <string name="Input_Error_email1">NO valid email</string>
+
+    <string name="Input_Error_contraseña1">Password too short, at least 8 characters</string>
+    <string name="Input_Error_contraseña2">Password too long, up to 20 characters</string>
+    <string name="Input_Error_contraseña3">The password must contain uppercase, lowercase and figures</string>
+
+    <string name="Input_Error_fields">Invalid data entered.</string>
+
+    <string name="title_alertdialog1">AUTHENTICATION ERROR</string>
+    <string name="msg_alertdialog1">There was an error authenticating the user</string>
+    <string name="title_alertdialog2">LOGOUT</string>
+    <string name="msg_alertdialog2">Logged out</string>
+    <string name="title_alertdialog3">NO INTERNET CONNECTION</string>
+    <string name="msg_alertdialog3">Check internet connection</string>
+    <string name="neutral_btn_alertdialog">OK</string>
+
+    <!-- Layout activity_login.xml -->
+    <string name="login_activity_title">AUTHENTICATION</string>
+    <string name="hint_correo">Enter your email</string>
+    <string name="hint_contraseña">Enter your password</string>
+    <string name="BTN_registrar">SIGN IN</string>
+    <string name="BTN_acceder">LOG IN</string>
+    <string name="title_activity_google_maps">GoogleMapsActivity</string>
+    <string name="BTN_reset_login">Forgot your password?</string>
+
+
+    <!-- GoogleMapActivity.java -->
+    <string name="CATEGORIA1">atm</string>
+    <string name="CATEGORIA2">cafe</string>
+    <string name="CATEGORIA3">grocery store</string>
+    <string name="CATEGORIA4">no category</string>
+    <string name="CATEGORIA5">shopping</string>
+    <string name="CATEGORIA6">lodging</string>
+    <string name="CATEGORIA7">nightclub</string>
+    <string name="CATEGORIA8">attraction</string>
+    <string name="CATEGORIA9">food</string>
+    <string name="CATEGORIA10">transport</string>
+    <string name="CATEGORIA11">sports</string>
+    <string name="CATEGORIA12">trezor retailer</string>
+    <string name="CATEGORIA13">travel agency</string>
+    <string name="CATEGORIA14">educational business</string>
+    <string name="CATEGORIA15">services</string>
+    <string name="CATEGORIA16">retail</string>
+
+    <string name="title_alertdialog_aboutus">About\ </string>
+    <string name="msg_alertdialog_aboutus">The application allows to find places where cryptocurrencies are accepted as a form of payment, using Google maps and thanks to the Coinmap.org API\n\nApplication coded and designed by: Andrés Goicoechea Enrique</string>
+    <string name="btn_alertdialog_aboutus">Got it</string>
+    <string name="exit_app">Application closed</string>
+    <string name="hint_searchview_name">Search place by name</string>
+
+    <string name="title_alertdialog_activate_location">Activate location</string>
+    <string name="msg_alertdialog_activate_location">Location is \'Off\'.\nPlease activate location to use the app</string>
+    <string name="btn_positive_alertdialog_activate_location">Location settings</string>
+    <string name="btn_negative_alertdialog_activate_location">Cancel</string>
+    <string name="toast_negative_alertdialog_activate_location">Location not activated</string>
+
+
+    <string name="toast_btn_centrar_ubicacion">Calculating current location...</string>
+    <string name="toast_cambiar_mapa">Loading new map</string>
+
+    <string name="marker_snippet_text">Category:\ </string>
+
+    <string name="toast_calculando_ruta">Calculating route ...</string>
+
+    <string name="toast_error_peticion_coinmap">Coinmap request failed:\ </string>
+    <string name="toast_error_peticion_google">Error requesting Google:\ </string>
+
+    <string name="toast_error_coordenadas_origen_null">Error, activate the location</string>
+    <!--<string name="toast_error_coordenadas_destino_null">Error, selecciona un establecimiento</string>-->
+
+
+    <!-- Layout activity_google_maps.xml -->
+
+    <string name="btn_mapa_txt">MAP</string>
+    <string name="btn_cerca_txt">NEAR</string>
+    <string name="btn_favs_txt">FAVORITES</string>
+    <string name="btn_kraken_txt">KRAKEN</string>
+    <string name="btn_all_txt">ALL</string>
+
+    <string name="cantidad1_tv">Quantity:\ </string>
+    <string name="cantidad2_tv">\ places</string>
+    <string name="cantidad3_apis_tv">\ apis</string>
+
+    <string name="cantidad2_cryptos_tv">\ cryptocurrencies</string>
+
+    <string name="no_data_tv">No Kraken APIs configured!</string>
+
+    <string name="nombreRuta_tv">CURRENT ROUTE</string>
+    <string name="distancia_tv">Distance:\ </string>
+    <string name="duracion_tv">Duration:\ </string>
+
+    <!-- google_maps_menu.xml -->
+
+    <string name="cambiar_mapa">Change map</string>
+    <string name="map_type_1">NOMRAL MAP</string>
+    <string name="map_type_2">SATELLITE MAP</string>
+    <string name="map_type_3">HYBRID MAP</string>
+    <string name="map_type_4">TERRAIN MAP</string>
+
+<!--    <string name="descargar_firebase_txt">Download list from cloud</string>
+    <string name="subir_firebase_txt">Subir lista a la nube</string>-->
+
+    <!--<string name="mi_ubicacion_actual">Actualizar tiendas</string>&lt;!&ndash;quitar&ndash;&gt;
+    <string name="search">Buscar tienda</string>-->
+    <string name="aboutUS">About</string>
+    <string name="exit">Exit the application</string>
+
+    <!-- mostrar_balance_menu.xml -->
+
+    <string name="cerrar_vista">Close</string>
+
+
+    <!-- PermissionUtils.java -->
+    <string name="location_permission_denied">The app needs permissions to use location to display maps from Google Maps.</string>
+    <string name="permission_required_toast">Location permission is required for this app</string>
+    <string name="permission_rationale_location">Access to the location service is required to use the \'my location\' feature, which shows your current location on the map.</string>
+
+
+    <!-- DialogFragmentVenueInfo.java -->
+    <string name="call_Error_number">INVALID phone number</string>
+    <string name="error_reading_data_from_arguments">Could NOT load place information.</string>
+    <string name="BTN_close">CLOSE</string>
+    <string name="share_asunto">This place supports payments with cryptocurrencies!!!</string>
+
+
+    <!-- Layout dialog_fragment_venue_info.xml -->
+    <string name="hint_categoriaVenue"><u>Category:</u></string>
+    <string name="hint_paisVenue"><u>Country:</u></string>
+    <string name="hint_dateCreationVenue"><u>Created on:</u></string>
+    <string name="hint_dateUpdateVenue"><u>Updated on:</u></string>
+
+
+    <!-- MostrarBalanceActivity.java -->
+
+    <!-- Layout activity_mostrar_balance.xml -->
+    <string name="toolbar_title">BALANCE API</string>
+    <string name="hint_searchview_crypto_type">Search cryptocurrency by tag</string>
+    <string name="error_no_cryptos_tv">COULD NOT LOAD DATA</string>
+
+
+    <!-- DialogFragmentNewExchangeAPI.java -->
+
+    <!-- Layout DialogFragmentNewExchangeAPI.xml -->
+    <string name="title_df_new_api">CREATE NEW API</string>
+    <string name="BTN_crear">CREATE</string>
+    <string name="hint_nombreAPI">Assign a name</string>
+    <string name="hint_keyAPI">Enter the API key</string>
+    <string name="hint_secretAPI">Present the Secret key</string>
+
+
+    <!-- DialogFragmentResetPassword.java -->
+    <string name="Send_Password_Reset_Email">Check your email to reset your password</string>
+    <string name="Error_Password_Reset_Email">Could not send email, check internet connection or try again later</string>
+
+
+    <!-- Layout dialog_fragment_reset_password.xml -->
+    <string name="title_df_reset_psw">RESET PASSWORD</string>
+    <string name="BTN_reset">RESET</string>
+
+
+    <!-- DialogFragmentFilterOptions.java -->
+
+    <!-- Layout dialog_fragment_filter_options.xml -->
+
+    <string name="title_df_filter">FILTER CATEGORY</string>
+    <string name="checkbox_text_all">ALL</string>
+    <string name="BTN_apply_filter">APPLY FILTER</string>
+
+    <!-- ExampleActivity.java -->
+
+    <!-- Layout activity_example.xml -->
+
+
+</resources>

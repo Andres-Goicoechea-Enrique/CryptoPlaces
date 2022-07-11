@@ -1,7 +1,6 @@
 package pfm.andresgoicoecheaenrique.cryptoplaces;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,20 +14,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AdaptadorRecyclerViewVenue extends RecyclerView.Adapter<AdaptadorRecyclerViewVenue.ViewHolderVenue>{
+public class AdaptadorExtraRVViewVenue  extends RecyclerView.Adapter<AdaptadorExtraRVViewVenue.ViewHolderVenue>{
 
     private int[] colors = new int[]{R.color.CATEGORIA1, R.color.CATEGORIA2, R.color.CATEGORIA3, R.color.CATEGORIA4, R.color.CATEGORIA5, R.color.CATEGORIA6, R.color.CATEGORIA7, R.color.CATEGORIA8, R.color.CATEGORIA9, R.color.CATEGORIA10, R.color.CATEGORIA11, R.color.CATEGORIA12, R.color.CATEGORIA13, R.color.CATEGORIA14, R.color.CATEGORIA15, R.color.CATEGORIA16};
 
     private ArrayList<Venue> venuesAL;
     private GestorBD gBD;
-    private ArrayList<Venue> searchViewVenuesAL = new ArrayList<>();;
+    private ArrayList<Venue> searchViewVenuesAL;
     private Context contexto;
     private androidx.fragment.app.FragmentManager FragManager;
 
-    public AdaptadorRecyclerViewVenue(ArrayList<Venue> venues, GestorBD gBD, Context context, androidx.fragment.app.FragmentManager FragManager) {
+    public AdaptadorExtraRVViewVenue(ArrayList<Venue> venues, GestorBD gBD, Context context, androidx.fragment.app.FragmentManager FragManager) {
         this.venuesAL = venues;
         this.gBD = gBD;
-        //this.searchViewVenuesAL = new ArrayList<>();//puede fallar
+        this.searchViewVenuesAL = new ArrayList<>();//puede fallar
         searchViewVenuesAL.addAll(venues);
         //TEST
         this.FragManager = FragManager;
@@ -39,7 +38,7 @@ public class AdaptadorRecyclerViewVenue extends RecyclerView.Adapter<AdaptadorRe
     @Override
     public ViewHolderVenue onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list_venue_rv, parent, false);
-        return new AdaptadorRecyclerViewVenue.ViewHolderVenue(view);
+        return new AdaptadorExtraRVViewVenue.ViewHolderVenue(view);
     }
 
     @Override
@@ -53,7 +52,7 @@ public class AdaptadorRecyclerViewVenue extends RecyclerView.Adapter<AdaptadorRe
             public void onClick(View v) {
 
                 String url = "https://coinmap.org/api/v1/venues/" + venue.getId();
-                CommonUtils.jsonParse(url, CommonUtils.leerBBDDSQLite(gBD), contexto, FragManager);
+                //CommonUtils.jsonParse(url, CommonUtils.leerBBDDSQLite(gBD), contexto, FragManager);
             }
         });
     }
@@ -73,7 +72,6 @@ public class AdaptadorRecyclerViewVenue extends RecyclerView.Adapter<AdaptadorRe
                 List<Venue> collect = searchViewVenuesAL.stream()
                         .filter(item -> item.getName().toLowerCase().contains(search))
                         .collect(Collectors.toList());
-                venuesAL.clear();
                 venuesAL.addAll(collect);
             }
             else{
@@ -85,13 +83,12 @@ public class AdaptadorRecyclerViewVenue extends RecyclerView.Adapter<AdaptadorRe
                 }
             }
         }
-        notifyDataSetChanged();//NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO TOCAR
+        notifyDataSetChanged();
     }
 
-    public void filtradoCategoria(Boolean[] options){
+    /*public void filtradoCategoria(Boolean[] options){
         venuesAL.clear();
         if(options[0]){// ALL options
-            CommonUtils.mostrarToast("opciontes 0", contexto);
             venuesAL.addAll(searchViewVenuesAL);
         }
         else{
@@ -101,7 +98,7 @@ public class AdaptadorRecyclerViewVenue extends RecyclerView.Adapter<AdaptadorRe
                         List<Venue> collect = searchViewVenuesAL.stream()
                                 .filter(item -> item.getCategory().toLowerCase().equals(categorias.getCategoria()))
                                 .collect(Collectors.toList());
-
+                        venuesAL.clear();
                         venuesAL.addAll(collect);
                     }
                 }
@@ -121,8 +118,8 @@ public class AdaptadorRecyclerViewVenue extends RecyclerView.Adapter<AdaptadorRe
 
             }
         }
-        notifyDataSetChanged();
-    }
+
+    }*/
 
 
 

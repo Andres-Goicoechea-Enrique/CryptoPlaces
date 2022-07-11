@@ -1,6 +1,8 @@
 package pfm.andresgoicoecheaenrique.cryptoplaces;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -18,9 +20,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class DialogFragmentVenueInfo extends DialogFragment {
 
@@ -37,34 +43,37 @@ public class DialogFragmentVenueInfo extends DialogFragment {
     private ImageButton boton_share;
     private ImageButton boton_call;
 
-    private String name;
-    private String category;
-    private String country;
-    private String created_on;
+    private Venue venueDFFB;
+
     private String updated_on;
     private String phone;
     private String share;
     private Boolean favChecked;
 
+    private Boolean wasChecked = false;
+
+    private GestorBD gBD;
+    private Geocoder gcd;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            name = getArguments().getString("name", "");
-            category = getArguments().getString("category","");
-            country = getArguments().getString("country","");
-            created_on = getArguments().getString("created_on", "");
-            updated_on = getArguments().getString("updated_on","");
-            phone = getArguments().getString("phone","");
-            share = getArguments().getString("share","");
-            if(updated_on == "null"){
-                updated_on = created_on;
+            venueDFFB = (Venue) getArguments().getSerializable("venue");
+            updated_on = getArguments().getString("updated_on", "null");
+            phone = getArguments().getString("phone", "null");
+            share = "https://www.google.com/maps/search/" + venueDFFB.getLat() + "," + venueDFFB.getLon();
+            if (updated_on == "null") {
+                updated_on = String.valueOf(venueDFFB.getCreatedOn());
             }
-            favChecked = Boolean.parseBoolean(getArguments().getString("favChecked","false"));
+            favChecked = getArguments().getBoolean("favChecked", false);
+        } else {
+            CommonUtils.mostrarToast(getResources().getString(R.string.error_reading_data_from_arguments), getContext());
         }
-        else{
-            CommonUtils.mostrarToast("NO se pudo cargar la informacion del sitio.", getContext());
-        }
+        gBD = new GestorBD(getActivity(), CommonUtils.buildTableNameDB("test1@mail.es"));
+        gcd = new Geocoder(getActivity(), Locale.getDefault());
+
     }
 
     @Nullable
@@ -79,6 +88,11 @@ public class DialogFragmentVenueInfo extends DialogFragment {
         boton_cerrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (wasChecked && !favChecked) {
+                    CommonUtils.operacionesBD(gBD, (short) 0, venueDFFB, getActivity());
+                } else if(!wasChecked && favChecked) {
+                    CommonUtils.operacionesBD(gBD, (short) 1, venueDFFB, getActivity());
+                }
                 dismiss();
             }
         });
@@ -89,8 +103,8 @@ public class DialogFragmentVenueInfo extends DialogFragment {
                 myIntent.setType("text/plain");
                 String body = share;//https://www.google.com/maps/search/-18.9137896,47.5401904
                 String sub = getResources().getString(R.string.share_asunto);
-                myIntent.putExtra(Intent.EXTRA_SUBJECT,sub);
-                myIntent.putExtra(Intent.EXTRA_TEXT,body);
+                myIntent.putExtra(Intent.EXTRA_SUBJECT, sub);
+                myIntent.putExtra(Intent.EXTRA_TEXT, body);
                 startActivity(Intent.createChooser(myIntent, "Share Using"));
             }
         });
@@ -99,28 +113,26 @@ public class DialogFragmentVenueInfo extends DialogFragment {
             @Override
             public void onClick(View v) {
                 String numero = phone;
-                if(!Patterns.PHONE.matcher(numero).matches()){
+                if (!Patterns.PHONE.matcher(numero).matches()) {
                     mostrarToast(getResources().getString(R.string.call_Error_number));
-                }
-                else{
-                    Uri call = Uri.parse("tel:"+numero);
+                } else {
+                    Uri call = Uri.parse("tel:" + numero);
                     Intent intent = new Intent(Intent.ACTION_DIAL, call);
                     startActivity(intent);
                 }
             }
         });
 
-        //ToggleButton tb = (ToggleButton) findViewById(R.id.toggleBTN_id);
-        /*tb.setOnClickListener(new View.OnClickListener() {
+        tb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(tb.isChecked()) {
-                    mostrarToast("chekeado");
+                if (tb.isChecked()) {
+                    wasChecked = true;
                 } else {
-                    mostrarToast("no chekeado");
+                    wasChecked = false;
                 }
             }
-        });*/
+        });
 
         return view;
     }
@@ -136,23 +148,23 @@ public class DialogFragmentVenueInfo extends DialogFragment {
         boton_share = view.findViewById(R.id.boton_share);
         boton_call = view.findViewById(R.id.boton_call);
 
-        tb = (ToggleButton) view.findViewById(R.id.toggleBTN_id);
+        tb = view.findViewById(R.id.toggleBTN_id);
 
-        if(phone == "null"){
+        if (phone == "null") {
             boton_call.setVisibility(View.GONE);
         }
     }
 
-    private void initGeneralValues(){
-        nombreVenue.setText(name);
-        categoriaVenue.setText(category);
-        paisVenue.setText(country);
-        creacionVenue.setText(convertLongToDate(created_on));
-        actualizacionVenue.setText(convertLongToDate(updated_on));
+    private void initGeneralValues() {
+        nombreVenue.setText(venueDFFB.getName());
+        categoriaVenue.setText(CommonUtils.traducirCategory(venueDFFB.getCategory(), getContext()));
+        paisVenue.setText(countryBasedOncoordenates(venueDFFB.getLat(), venueDFFB.getLon()));
+        creacionVenue.setText(convertLongToDate(String.valueOf(venueDFFB.getCreatedOn())));
+        actualizacionVenue.setText(convertLongToDate(String.valueOf(updated_on)));
         tb.setChecked(favChecked);
     }
 
-    private String convertLongToDate(String timeStamp){
+    private String convertLongToDate(String timeStamp) {
         timeStamp += "000";
         long l = Long.parseLong(timeStamp);
         Date date = new Date(l);
@@ -160,7 +172,25 @@ public class DialogFragmentVenueInfo extends DialogFragment {
         return formatter.format(date);
     }
 
-    private void mostrarToast(String msj){
+    /**
+     * ***** *****   CODE MOSTRAR INFO DF   ***** *****
+     */
+    private String countryBasedOncoordenates(Double lat, Double lon) {
+        List<Address> addresses = null;
+        try {
+            addresses = gcd.getFromLocation(lat, lon, 1);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String countryName = null;
+        if (addresses.size() > 0) {
+            countryName = addresses.get(0).getCountryName();
+        }
+        return countryName;
+    }
+
+    private void mostrarToast(String msj) {
         Toast.makeText(getContext(), msj, Toast.LENGTH_SHORT).show();
     }
 }

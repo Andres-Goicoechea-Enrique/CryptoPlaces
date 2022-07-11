@@ -9,12 +9,20 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,21 +30,34 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private RequestQueue mQueue;
+    private ArrayList<Venue> venuesAL = new ArrayList<Venue>();
+
 
     private static final String ACCION_REGISTRAR = "reg";
     private static final String ACCION_ACCEDER = "acc";
 
     private SharedPreferences sharedPrefs;
-    private static final String mypreference = "CryptoPlaces";
-
+    private static final String MY_PREFERENCE = "CryptoPlaces";
 
     private EditText correoUsuario, contraseñaUsuario;
-    //private Button registrarBTN, accederBTN;
-    private AlertDialog alert;
+    private Button registrarBTN, accederBTN, resetBTN;
+
+    private DialogFragmentResetPassword dialogFragmentResetPassword = new DialogFragmentResetPassword();
+
     private FirebaseAuth mAuth;
+
+    //DialogCarga dialogCarga = new DialogCarga(LoginActivity.this);
+    //private Handler mainHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,16 +86,28 @@ public class LoginActivity extends AppCompatActivity {
     private void initForm(){
         correoUsuario = (EditText) findViewById(R.id.campo_correo);
         contraseñaUsuario = (EditText) findViewById(R.id.campo_contraseña);
-        /*registrarBTN = (Button) findViewById(R.id.boton_registrar);
-        accederBTN = (Button) findViewById(R.id.boton_acceder);*/
-    }
+        registrarBTN = (Button) findViewById(R.id.boton_registrar);
+        accederBTN = (Button) findViewById(R.id.boton_acceder);
+        resetBTN = (Button) findViewById(R.id.boton_reset_login_id);
 
-    public void registrarBTN(View view) {
-        checkCondiciones(ACCION_REGISTRAR);
-    }
-
-    public void accederBTN(View view) {
-        checkCondiciones(ACCION_ACCEDER);
+        registrarBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkCondiciones(ACCION_REGISTRAR);
+            }
+        });
+        accederBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkCondiciones(ACCION_ACCEDER);
+            }
+        });
+        resetBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogFragmentResetPassword.show(getSupportFragmentManager(), "LoginDialogFragmentResetPassword");
+            }
+        });
     }
 
     private void checkCondiciones(String btn){
@@ -113,7 +146,6 @@ public class LoginActivity extends AppCompatActivity {
             }
             else{// campos invalidos
                 CommonUtils.mostrarToast(getResources().getString(R.string.Input_Error_fields), this);
-                //mostrarToast(getResources().getString(R.string.Input_Error_fields));
             }
         }
         else{// No internet
@@ -189,7 +221,7 @@ public class LoginActivity extends AppCompatActivity {
             constructor.setMessage(getResources().getString(R.string.msg_alertdialog2));
             constructor.setNeutralButton(getResources().getString(R.string.neutral_btn_alertdialog), null);
         }
-        else{
+        else{//COMMON UTILS
             constructor.setTitle(getResources().getString(R.string.title_alertdialog3));
             constructor.setMessage(getResources().getString(R.string.msg_alertdialog3));
             constructor.setNeutralButton(getResources().getString(R.string.neutral_btn_alertdialog), null);
@@ -204,10 +236,12 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
         else{
-            sharedPrefs = getSharedPreferences(mypreference, MODE_PRIVATE);
+            sharedPrefs = getSharedPreferences(MY_PREFERENCE, MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPrefs.edit();
             editor.putString("email", correoUsuario.getText().toString());
             editor.putString("passw", contraseñaUsuario.getText().toString());
+            editor.commit();
+
             Intent intent = new Intent(LoginActivity.this, GoogleMapsActivity.class);
             startActivity(intent);
         }
@@ -224,5 +258,4 @@ public class LoginActivity extends AppCompatActivity {
         }
         return resul;
     }
-
 }

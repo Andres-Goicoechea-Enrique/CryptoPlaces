@@ -2,6 +2,7 @@ package pfm.andresgoicoecheaenrique.cryptoplaces.Kraken;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import pfm.andresgoicoecheaenrique.cryptoplaces.R;
+import pfm.andresgoicoecheaenrique.cryptoplaces.Venue;
 
 public class AdaptadorRecyclerViewAPIs extends RecyclerView.Adapter<AdaptadorRecyclerViewAPIs.ViewHolderAPI>{
 
@@ -48,6 +52,8 @@ public class AdaptadorRecyclerViewAPIs extends RecyclerView.Adapter<AdaptadorRec
                 apisAL.remove(api);
                 cantidadAPIs.setText(contexto.getResources().getString(R.string.cantidad1_tv) + apisAL.size() + contexto.getResources().getString(R.string.cantidad3_apis_tv));
                 // BASE DE DATOS LOCAL REALIZAR EL BORRADO SQLLITE
+                //
+                //notifyItemRemoved(position);
                 notifyDataSetChanged();
             }
         });
@@ -67,30 +73,22 @@ public class AdaptadorRecyclerViewAPIs extends RecyclerView.Adapter<AdaptadorRec
         return apisAL.size();
     }
 
-/*public void filtrado(String search){
+public void filtrado(String search){
         if(search.length() == 0){
-            venuesAL.clear();
-            venuesAL.addAll(searchViewVenuesAL);
+            apisAL.clear();
+            apisAL.addAll(searchViewAPIsAL);
         }
         else{
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-                List<Venue> collect = searchViewVenuesAL.stream()
+                List<ExchangeAPI> collect = searchViewAPIsAL.stream()
                         .filter(item -> item.getName().toLowerCase().contains(search))
                         .collect(Collectors.toList());
-                venuesAL.clear();
-                venuesAL.addAll(collect);
-            }
-            else{
-                venuesAL.clear();
-                for(Venue venue: searchViewVenuesAL){
-                    if(venue.getName().toLowerCase().contains(search)){
-                        venuesAL.add(venue);
-                    }
-                }
+                apisAL.clear();
+                apisAL.addAll(collect);
             }
         }
         notifyDataSetChanged();
-    }*/
+    }
 
     public class ViewHolderAPI extends RecyclerView.ViewHolder{
         //INICIALIZAR LOS COMPONENTES QUE SE VERAN

@@ -11,33 +11,34 @@
     <!-- MIS COLORINES -->
     <color name="redAccent">#ff0000</color>
     <color name="greenAccent">#2ffd64</color>
+    <color name="yellowAccent2">#D8C83C</color>
     <color name="yellowAccent">#DDD487</color>
     <color name="blueAccent">#8795DD</color>
     <color name="purpleAccent">#DD87C0</color>
     <color name="ligthRedAccent">#DD8787</color>
     <color name="greyAccent">#6A5D5D</color>
-    <color name="ligthGreyAccent">#9C8C8C</color>
+    <color name="ligthGreyAccent">#C9BDBD</color>
     <color name="ligthBlueAccent">#2196F3</color>
     <color name="ligthPurpleAccent">#E28192FF</color>
     <color name="ligthRedAccent2">#FD4B4B</color>
 
-    <color name="tipo0">#002AFF</color>
-    <color name="tipo1">#F44336</color>
-    <color name="tipo2">#E91E63</color>
-    <color name="tipo3">#9C27B0</color>
-    <color name="tipo4">#673AB7</color>
-    <color name="tipo5">#3F51B5</color>
-    <color name="tipo6">#2196F3</color>
-    <color name="tipo7">#009688</color>
-    <color name="tipo8">#4CAF50</color>
-    <color name="tipo9">#CDDC39</color>
-    <color name="tipo10">#FF5722</color>
-    <color name="tipo11">#000000</color>
-    <color name="tipo12">#FF00F2</color>
-    <color name="tipo13">#4CFF00</color>
-    <color name="tipo14">#FF1E00</color>
-    <color name="tipo15">#00FFCC</color>
-    <color name="tipo16">#F6638D</color>
+    <color name="CATEGORIA1">#007FFF</color>
+    <color name="CATEGORIA2">#0000FF</color>
+    <color name="CATEGORIA3">#00FFFF</color>
+    <color name="CATEGORIA4">#66FF00</color>
+    <color name="CATEGORIA5">#FF00FF</color>
+    <color name="CATEGORIA6">#FF6600</color>
+    <color name="CATEGORIA7">#FF0000</color>
+    <color name="CATEGORIA8">#FF3399</color>
+    <color name="CATEGORIA9">#6600FF</color>
+    <color name="CATEGORIA10">#FFCC33</color>
+    <color name="CATEGORIA11">#00FF6A</color>
+    <color name="CATEGORIA12">#9500FF</color>
+    <color name="CATEGORIA13">#FFBF00</color>
+    <color name="CATEGORIA14">#2A00FF</color>
+    <color name="CATEGORIA15">#008980</color>
+    <color name="CATEGORIA16">#FF2B00</color>
+
 
     <color name="tipo17">#570000</color>
 

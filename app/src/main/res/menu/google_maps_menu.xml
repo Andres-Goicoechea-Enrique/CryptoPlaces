@@ -4,7 +4,7 @@
 
 
     <item
-        android:id="@+id/cambiar_mapa"
+        android:id="@+id/cambiar_mapa_menu_id"
         android:title="@string/cambiar_mapa"
         android:icon="@drawable/ic_baseline_map_24"
         app:showAsAction="ifRoom"
@@ -29,16 +29,11 @@
         </menu>
     </item>
     <item
-        android:id="@+id/refresh"
-        android:title="@string/mi_ubicacion_actual"
-        android:icon="@drawable/ic_baseline_refresh_24"
+        android:id="@+id/filter_id"
+        android:title="Filtrar"
+        android:icon="@drawable/ic_baseline_filter_alt_24"
         app:showAsAction="ifRoom"
-        />
-    <item
-        android:id="@+id/search"
-        android:title="@string/search"
-        android:icon="@drawable/ic_baseline_search_24"
-        app:showAsAction="ifRoom"
+        android:visible="false"
         />
     <item
         android:id="@+id/about_us"

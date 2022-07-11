@@ -1,11 +1,5 @@
 package pfm.andresgoicoecheaenrique.cryptoplaces.Kraken;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.InputType;
@@ -13,6 +7,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,8 +66,8 @@ public class MostrarBalanceActivity extends AppCompatActivity implements SearchV
     private void exeThreadKrakenCryptos(){
         KrakenAPIcode api = new KrakenAPIcode();
 
-        String key = "";
-        String secret = "";
+        String key = "1RjDI4V5G0I4sOe80GkqLXN05Y7g2cMv+nBAVPGN557tm0Hg38Znp8hu";
+        String secret = "RQvR9u6sX4riXcI0LBT4GwV69TwSGxB/UGO6p/W+aZzKvj7D9s23uoOEjrBP19w5gTx+df7t2v+T5UET6DGbwA==";
 
         Thread thread = new Thread(new Runnable() {
 

@@ -6,14 +6,64 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Locale;
+
+
 public abstract class CommonUtils {
+
+    private static RequestQueue mQueue;
 
 
     /**
-     *
+     * GESTIONAR BD
+     */
+    protected static void operacionesBD(GestorBD gBD, short codeOperacion, Venue venue, Context context){
+        if(codeOperacion == 0){// Insertar Venue
+            long id1 = gBD.insertarNewVenue(venue);
+            mostrarToast("ID: "+id1, context);
+        }
+        else if(codeOperacion == 1){// Eliminar Venue
+            gBD.borrarVenue(venue.getId());
+        }
+        else{
+            mostrarToast("Error", context);
+        }
+    }
+    /**
+     * Leer BD
+     */
+    protected static ArrayList<Venue> leerBBDDSQLite(GestorBD gBD){//ordenar
+        return gBD.getAllVenues("NAME", "ASC");
+    }
+
+    /**
+     * Nombre de la tabla de la BD en base al correo del usuario.
+     */
+    protected static String buildTableNameDB(String s){
+        String resul = s.replace("@", "");
+        return resul.replace(".","");
+    }
+
+    /**
+     * Crear Alertas
      * @param code
      */
     protected static void crearAlert(short code, Context context) {
@@ -63,4 +113,131 @@ public abstract class CommonUtils {
     protected static void mostrarToast(String msj, Context context) {
         Toast.makeText(context, msj, Toast.LENGTH_SHORT).show();
     }
+    /**
+     * Convierte el primer char de un string en MAYUS y el resto en minus.
+     */
+    protected static String setCategoryName(String string) {
+        return string.substring(0, 1).toUpperCase(Locale.ROOT) + string.toLowerCase(Locale.ROOT).substring(1);
+
+    }
+    /**
+     * Asignar un color a cada marcador dependiendo de su categoria
+     */
+    protected static BitmapDescriptor asignarColor(String category) {
+        float colorIcono = (float)90.0;//sin categoria == default 3
+
+        for(todasCategoriasEnum categorias : todasCategoriasEnum.values()){
+            if(categorias.getCategoria().equals(category)){
+                colorIcono = categorias.getColorIcono();
+                break;
+            }
+        }
+        BitmapDescriptor bitmap = BitmapDescriptorFactory.defaultMarker(colorIcono);
+        return bitmap;
+    }
+    /**
+     * Asignar un color INT a cada marcador dependiendo de su categoria
+     */
+    protected static short colorIndex(String category){
+        short resul = (short) 3;//sin categoria == default 3
+        for(todasCategoriasEnum categorias : todasCategoriasEnum.values()){
+            if(categorias.getCategoria().equals(category)){
+                resul = categorias.getIndex();
+                break;
+            }
+        }
+        return resul;
+    }
+    /**
+     * Traduce las categorias al idioma correspondiente
+     */
+    protected static String traducirCategory(String category, Context context){
+        String resul = context.getResources().getString(R.string.CATEGORIA4);//sin categoria == default 3
+        for(todasCategoriasEnum categorias : todasCategoriasEnum.values()){
+            if(categorias.getCategoria().equals(category)){
+                resul = categorias.getLabel(context);
+                break;
+            }
+        }
+        return CommonUtils.setCategoryName(resul);
+    }
+
+    /**
+     * Datos venue
+     */
+    protected static void jsonParse(String url, ArrayList<Venue> favsVenuesAL, Context context, androidx.fragment.app.FragmentManager FragManager){// short code,
+        if(!isInternetEnabled(context)){
+            crearAlert((short) 2, context);
+        }
+        else{
+            mQueue = Volley.newRequestQueue(context);
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // Peticion API Coinmap venue info
+                            try {
+                                JSONObject jsonObjectVenueDetails = response.getJSONObject("venue");
+
+                                // Guardar todos los datos, pero no da tiempo
+                                Venue venueDFFB = convertDataForVenue(
+                                        jsonObjectVenueDetails.getString("id"),
+                                        jsonObjectVenueDetails.getString("lat"),
+                                        jsonObjectVenueDetails.getString("lon"),
+                                        jsonObjectVenueDetails.getString("category"),
+                                        jsonObjectVenueDetails.getString("name"),
+                                        jsonObjectVenueDetails.getString("created_on"),
+                                        jsonObjectVenueDetails.getString("geolocation_degrees")
+                                );
+                                //shared references
+                                //coordenadasDestino = new LatLng(venueDFFB.getLat(), venueDFFB.getLon());
+
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("venue", venueDFFB);
+                                bundle.putString("updated_on", jsonObjectVenueDetails.getString("updated_on"));
+                                bundle.putString("phone", jsonObjectVenueDetails.getString("phone"));
+                                bundle.putBoolean("favChecked", isVenueInFavsAL(favsVenuesAL, venueDFFB));
+
+
+                                DialogFragmentVenueInfo dialogFragmentVenueInfo = new DialogFragmentVenueInfo();
+                                dialogFragmentVenueInfo.setArguments(bundle);
+                                dialogFragmentVenueInfo.setCancelable(false);
+                                dialogFragmentVenueInfo.show(FragManager, "GoogleMapsDialogFragmentVenueInfo");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //mostrarToast(getResources().getString(R.string.toast_error_peticion_coinmap) + error);
+                    error.printStackTrace();
+                }
+            });
+
+            mQueue.add(request);
+        }
+    }
+
+    /**
+     * Convertir data a un objeto Venue
+     */
+    private static Venue convertDataForVenue(String s1, String s2, String s3, String s4, String s5, String s6, String s7) {
+        return new Venue(Long.parseLong(s1), Double.parseDouble(s2), Double.parseDouble(s3), s4, s5, Long.parseLong(s6), s7);
+    }
+    /**
+     * Comprobar si el venue esta en la lista de favoritos
+     */
+    private static boolean isVenueInFavsAL(ArrayList<Venue> favsVenuesAL, Venue venue) {
+        Boolean resul = false;
+        for (Venue v : favsVenuesAL) {
+            if (v.getId() == venue.getId()) {
+                resul = true;
+                break;
+            }
+        }
+        return resul;
+    }
+
 }

@@ -26,9 +26,6 @@ public class DialogFragmentNewExchangeAPI extends DialogFragment {
     private Button boton_crear;
     private Button boton_cerrar;
 
-    private TextView tv1;
-    private TextView tv2;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,6 +37,7 @@ public class DialogFragmentNewExchangeAPI extends DialogFragment {
         boton_cerrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CommonUtils.mostrarToast(apiName.getText().toString(), getContext());
                 dismiss();
             }
         });
@@ -51,9 +49,6 @@ public class DialogFragmentNewExchangeAPI extends DialogFragment {
         apiName = view.findViewById(R.id.NombreAPI_ET_id);
         key = view.findViewById(R.id.keyAPI_ET_id);
         secret = view.findViewById(R.id.secretAPI_ET_id);
-
-        tv1 = view.findViewById(R.id.tv1);
-        tv2 = view.findViewById(R.id.tv2);
 
         //boton_crear = view.findViewById(R.id.boton_crear_id);
         boton_cerrar = view.findViewById(R.id.boton_cerrar_id);

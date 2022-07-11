@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".LoginActivity">
 
 
@@ -18,21 +17,22 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
             android:background="@color/purple_500"
             android:elevation="4dp"
+            android:minHeight="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:title="@string/login_activity_title">
 
         </androidx.appcompat.widget.Toolbar>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_alignParentTop="true"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/img_correo"
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="30dp" >
+            android:layout_marginRight="30dp">
 
             <EditText
                 android:id="@+id/campo_correo"
@@ -57,17 +57,18 @@
                 android:ems="10"
                 android:hint="@string/hint_correo"
                 android:inputType="textEmailAddress"
-                app:errorEnabled="true"
-                android:maxLines="1" />
+                android:maxLines="1"
+                app:errorEnabled="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_alignParentTop="true"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/img_contraseña"
@@ -82,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="30dp" >
+            android:layout_marginRight="30dp">
 
             <EditText
                 android:id="@+id/campo_contraseña"
@@ -92,8 +93,8 @@
                 android:ems="10"
                 android:hint="@string/hint_contraseña"
                 android:inputType="textPassword"
-                app:errorEnabled="true"
-                android:maxLines="1" />
+                android:maxLines="1"
+                app:errorEnabled="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
@@ -104,10 +105,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_margin="20dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -115,25 +113,43 @@
             android:id="@+id/boton_registrar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginLeft="5dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/blueAccent"
-            android:textColor="@color/black"
             android:text="@string/BTN_registrar"
-            android:onClick="registrarBTN"/>
+            android:textColor="@color/black" />
+
         <Button
             android:id="@+id/boton_acceder"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginRight="5dp"
+            android:layout_weight="1"
             android:backgroundTint="@color/greenAccent"
-            android:textColor="@color/black"
             android:text="@string/BTN_acceder"
-            android:onClick="accederBTN"/>
+            android:textColor="@color/black" />
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/boton_reset_login_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/yellowAccent2"
+            android:text="@string/BTN_reset_login"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
 
 
 </LinearLayout>
