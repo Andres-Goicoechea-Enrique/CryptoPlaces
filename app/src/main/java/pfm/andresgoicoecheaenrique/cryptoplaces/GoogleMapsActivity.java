@@ -1076,7 +1076,6 @@ public class GoogleMapsActivity extends AppCompatActivity
         String mode = "&mode=walking";// transit, driving, walking, or cycling
 
         return "https://maps.googleapis.com/maps/api/directions/json?" + str_origin + "&" + str_dest + mode + "&key=" + getResources().getString(R.string.google_maps_key);
-        //https://maps.googleapis.com/maps/api/directions/json?origin=40.4018501,-3.6751223&destination=28.4696927,-16.2865003&mode=transit&key=AIzaSyB1oi6o3-gE4kWwEFHCfBwdn2LesuMp0XI
     }
 
 

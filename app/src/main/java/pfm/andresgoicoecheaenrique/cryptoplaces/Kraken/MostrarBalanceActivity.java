@@ -84,7 +84,6 @@ public class MostrarBalanceActivity extends AppCompatActivity implements SearchV
         thread.start();
     }
     private void obtenerInfo(String response){
-        cryptosAL.clear();
         try {
             JSONObject JOResponse = new JSONObject(response);
             JSONArray JAError = JOResponse.getJSONArray("error");
