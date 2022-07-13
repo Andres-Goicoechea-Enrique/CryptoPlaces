@@ -26,6 +26,9 @@
     <string name="msg_alertdialog3">Comprueba la conexión a internet</string>
     <string name="neutral_btn_alertdialog">Aceptar</string>
 
+    title_alertdialog_subir_favs
+
+
     <!-- Layout activity_login.xml -->
     <string name="login_activity_title">AUTENTICACIÓN</string>
     <string name="hint_correo">Introduce tu correo</string>
@@ -66,6 +69,12 @@
     <string name="btn_negative_alertdialog_activate_location">Cancelar</string>
     <string name="toast_negative_alertdialog_activate_location">No se activo la localización</string>
 
+    <string name="title_alertdialog_subir_favs">Subir favoritos a la nube</string>
+    <string name="msg_alertdialog_subir_favs">Se va ha ELIMINAR y sustituir la lista de favoritos de la nube.\n¿Está seguro?</string>
+    <string name="btn_positive_alertdialog_subir_favs">Si</string>
+    <string name="toast_positive_alertdialog_subir_favs">Datos subidos</string>
+    <string name="btn_negative_alertdialog_subir_favs">No</string>
+    <string name="toast_negative_alertdialog_subir_favs">Se canceló la acción</string>
 
     <string name="toast_btn_centrar_ubicacion">Calculando ubicación actual ...</string>
     <string name="toast_cambiar_mapa">Cargando nuevo mapa</string>
@@ -86,7 +95,7 @@
     <string name="btn_mapa_txt">MAPA</string>
     <string name="btn_cerca_txt">CERCA</string>
     <string name="btn_favs_txt">FAVORITOS</string>
-    <string name="btn_kraken_txt">KRAKEN</string>
+    <string name="btn_kraken_txt">APIS</string>
     <string name="btn_all_txt">TODOS</string>
 
     <string name="cantidad1_tv">Cantidad:\ </string>

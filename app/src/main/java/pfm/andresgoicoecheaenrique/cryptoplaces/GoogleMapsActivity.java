@@ -16,6 +16,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.InputType;
@@ -369,16 +370,22 @@ public class GoogleMapsActivity extends AppCompatActivity
         descargarFirebase_FAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //crearAlert();
-                descargarFavs();
-                mostrarToast("Datos descargados");
+                if (!isInternetEnabled()) {// No internet
+                    CommonUtils.crearAlert((short) 2, GoogleMapsActivity.this);
+                } else{
+                    descargarFavs();
+                    mostrarToast("Datos descargados");
+                }
             }
         });
         subirFirebase_FAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                subirFavs();
-                mostrarToast("Datos subidos");
+                if (!isInternetEnabled()) {// No internet
+                    CommonUtils.crearAlert((short) 2, GoogleMapsActivity.this);
+                } else{
+                    crearAlert((short) 3);
+                }
             }
         });
 
@@ -397,7 +404,7 @@ public class GoogleMapsActivity extends AppCompatActivity
             public void onClick(View v) {
                 //SERVICIO CHECK LOCATION
                 if (!isLocationEnabled()) {
-                    CommonUtils.crearAlert((short) 1, getApplicationContext());
+                    CommonUtils.crearAlert((short) 1, GoogleMapsActivity.this);
                 }
                 //Tarda unos segundos en mostrar la ubicacion actual
                 else if (coordenadasOrigen == null) {
@@ -464,6 +471,11 @@ public class GoogleMapsActivity extends AppCompatActivity
         btn.setTextColor(text_color);
     }
 
+    private void clearSearchView(){
+        buscadorSV.setQuery("", false);
+        buscadorSV.clearFocus();
+    }
+
     private void initRV(short RVcode) {
         //Inicialmente
         /*map_LL.setVisibility(View.VISIBLE);
@@ -472,7 +484,7 @@ public class GoogleMapsActivity extends AppCompatActivity
         krakenVenues_RV.setVisibility(View.GONE);
         buscarVenues_RV.setVisibility(View.GONE);*/
 
-        //clearSearchView();
+        clearSearchView();
         if (RVcode == 0) {//mapa
             search_and_num_id_LL.setVisibility(View.GONE);
             map_LL.setVisibility(View.VISIBLE);
@@ -497,7 +509,7 @@ public class GoogleMapsActivity extends AppCompatActivity
             subirFirebase_FAB.setVisibility(View.GONE);
         }
         else if (RVcode == 2) {//favs
-            initAdapterFavs((short) 0);//leerFavs();
+            initAdapterFavs();//leerFavs();
             search_and_num_id_LL.setVisibility(View.VISIBLE);
             map_LL.setVisibility(View.GONE);
             cercaVenues_RV.setVisibility(View.GONE);
@@ -512,8 +524,8 @@ public class GoogleMapsActivity extends AppCompatActivity
         } else if (RVcode == 3) {//kraken
             //initAdapters();
             //init
-            String key = "1RjDI4V5G0I4sOe80GkqLXN05Y7g2cMv+nBAVPGN557tm0Hg38Znp8hu";
-            String secret = "RQvR9u6sX4riXcI0LBT4GwV69TwSGxB/UGO6p/W+aZzKvj7D9s23uoOEjrBP19w5gTx+df7t2v+T5UET6DGbwA==";
+            String key = "";
+            String secret = "";
             apisAL.add(new ExchangeAPI("test", key, secret));
             apisAL.add(new ExchangeAPI("test2", key, secret));
             initAdapterKrakenAPIs();
@@ -565,10 +577,8 @@ public class GoogleMapsActivity extends AppCompatActivity
         cercaVenues_RV.setAdapter(cerca_adaptadorVenuesRV);
     }
 
-    protected void initAdapterFavs(short code) {
-        if(code == 0){
-            leerBBDDSQLite();
-        }
+    protected void initAdapterFavs() {
+        leerBBDDSQLite();
         favsVenues_RV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         favsVenues_RV.setNestedScrollingEnabled(true);
 
@@ -636,11 +646,22 @@ public class GoogleMapsActivity extends AppCompatActivity
         System.out.println("xxxxxxxx, https://coinmap.org/api/v1/venues/?lat1=" + latMin + "&lat2=" + latMax + "&lon1=" + lngMin + "&lon2=" + lngMax + "&limit=100");
     }
 
+    //Revisar API 21
     private void createAL50km(ArrayList<Venue> nearBoxAL) {
-        nearRadiusAL = nearBoxAL.stream()
-                .filter(l -> haversine(l.getLat(), l.getLon(),
-                        coordenadasOrigen.latitude, coordenadasOrigen.longitude) <= 10)
-                .collect(Collectors.toCollection(ArrayList::new));
+        nearRadiusAL.clear();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){// API >= 24
+            nearRadiusAL = nearBoxAL.stream()
+                    .filter(l -> haversine(l.getLat(), l.getLon(),
+                            coordenadasOrigen.latitude, coordenadasOrigen.longitude) <= 10)
+                    .collect(Collectors.toCollection(ArrayList::new));
+        }
+        else{// API < 24
+            for(Venue venue: nearBoxAL){
+                if(haversine(venue.getLat(), venue.getLon(), coordenadasOrigen.latitude, coordenadasOrigen.longitude) <= 10){
+                    nearRadiusAL.add(venue);
+                }
+            }
+        }
     }
 
     private double haversine(double lat1, double lng1, double lat2, double lng2) {
@@ -681,14 +702,18 @@ public class GoogleMapsActivity extends AppCompatActivity
     public boolean onQueryTextChange(String newText) {
         if (buscadorSV.getQueryHint().toString() == getResources().getString(R.string.hint_searchview_name)) {
             if (cercaVenues_RV.getVisibility() == View.VISIBLE) {
-                cerca_adaptadorVenuesRV.filtrado(newText);
+                cerca_adaptadorVenuesRV.filtrado(newText.toLowerCase(Locale.ROOT));
+                cantidad_tv.setText(getResources().getString(R.string.cantidad1_tv) + "" + cerca_adaptadorVenuesRV.getItemCount() + getResources().getString(R.string.cantidad2_tv));
             } else if (favsVenues_RV.getVisibility() == View.VISIBLE) {
-                favs_adaptadorVenuesRV.filtrado(newText);
+                favs_adaptadorVenuesRV.filtrado(newText.toLowerCase(Locale.ROOT));
+                cantidad_tv.setText(getResources().getString(R.string.cantidad1_tv) + "" + favs_adaptadorVenuesRV.getItemCount() + getResources().getString(R.string.cantidad2_tv));
             } else if (allVenues_RV.getVisibility() == View.VISIBLE) {
-                all_adaptadorVenuesRV.filtrado(newText);
+                all_adaptadorVenuesRV.filtrado(newText.toLowerCase(Locale.ROOT));
+                cantidad_tv.setText(getResources().getString(R.string.cantidad1_tv) + "" + all_adaptadorVenuesRV.getItemCount() + getResources().getString(R.string.cantidad2_tv));
             }
             else if (krakenAPIs_RV.getVisibility() == View.VISIBLE){
-                kraken_adaptadorAPIsRV.filtrado(newText);
+                kraken_adaptadorAPIsRV.filtrado(newText.toLowerCase(Locale.ROOT));
+                cantidad_tv.setText(getResources().getString(R.string.cantidad1_tv) + kraken_adaptadorAPIsRV.getItemCount() + getResources().getString(R.string.cantidad3_apis_tv));
             }
         } else {
             mostrarToast("error buscardor");
@@ -1005,10 +1030,27 @@ public class GoogleMapsActivity extends AppCompatActivity
                             mostrarToast(getResources().getString(R.string.toast_negative_alertdialog_activate_location));
                         }
                     });
-        } else { // NO HAY INTERNET
+        } else if (code == 2){ // NO HAY INTERNET
             constructor.setTitle(getResources().getString(R.string.title_alertdialog3));
             constructor.setMessage(getResources().getString(R.string.msg_alertdialog3));
             constructor.setNeutralButton(getResources().getString(R.string.neutral_btn_alertdialog), null);
+        }
+        else if (code == 3) {// CONFIRMAR SUBIDA FAVS
+            constructor.setTitle(getResources().getString(R.string.title_alertdialog_subir_favs))
+                    .setMessage(getResources().getString(R.string.msg_alertdialog_subir_favs))
+                    .setPositiveButton(getResources().getString(R.string.btn_positive_alertdialog_subir_favs), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            subirFavs();
+                            mostrarToast(getResources().getString(R.string.toast_positive_alertdialog_subir_favs));
+                        }
+                    })
+                    .setNegativeButton(getResources().getString(R.string.btn_negative_alertdialog_subir_favs), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            mostrarToast(getResources().getString(R.string.toast_negative_alertdialog_subir_favs));
+                        }
+                    });
         }
         constructor.create().show();
     }
@@ -1057,7 +1099,9 @@ public class GoogleMapsActivity extends AppCompatActivity
         map.setOnMyLocationClickListener(this);
         enableMyLocation();
         checkLocation();
-        jsonParse("https://coinmap.org/api/v1/venues/?lat1=40.3018183&lat2=40.501818300000004&lon1=-3.7512897738859636&lon2=-3.5989862261140364&limit=100", 0);
+        jsonParse("https://coinmap.org/api/v1/venues/?after=2022-01-01&before=2023-01-01", 0);
+        //"https://coinmap.org/api/v1/venues/?lat1=40.3018183&lat2=40.501818300000004&lon1=-3.7512897738859636&lon2=-3.5989862261140364&limit=100"
+
         //addMarkersAL(venuesAL);
         //https://coinmap.org/api/v1/venues/?lat1=39.4018336&lat2=41.4018336&lon1=-4.436671765782216&lon2=-2.9136366342177844&limit=100
         map.setOnMarkerClickListener(this);//Saber que marcador hemos seleccionado
@@ -1268,7 +1312,7 @@ public class GoogleMapsActivity extends AppCompatActivity
                                             String.valueOf(((Map) listFavs.get(i)).get("createdOn")),
                                             String.valueOf(((Map) listFavs.get(i)).get("geolocation_degrees"))
                                     ));*/
-                                        initAdapterFavs((short) 0);
+                                        initAdapterFavs();
                                     }
                                 }
                                 else{

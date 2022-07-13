@@ -66,8 +66,8 @@ public class MostrarBalanceActivity extends AppCompatActivity implements SearchV
     private void exeThreadKrakenCryptos(){
         KrakenAPIcode api = new KrakenAPIcode();
 
-        String key = "1RjDI4V5G0I4sOe80GkqLXN05Y7g2cMv+nBAVPGN557tm0Hg38Znp8hu";
-        String secret = "RQvR9u6sX4riXcI0LBT4GwV69TwSGxB/UGO6p/W+aZzKvj7D9s23uoOEjrBP19w5gTx+df7t2v+T5UET6DGbwA==";
+        String key = "";
+        String secret = "";
 
         Thread thread = new Thread(new Runnable() {
 
@@ -84,6 +84,7 @@ public class MostrarBalanceActivity extends AppCompatActivity implements SearchV
         thread.start();
     }
     private void obtenerInfo(String response){
+        cryptosAL.clear();
         try {
             JSONObject JOResponse = new JSONObject(response);
             JSONArray JAError = JOResponse.getJSONArray("error");
@@ -157,7 +158,7 @@ public class MostrarBalanceActivity extends AppCompatActivity implements SearchV
     }
 
     private void checkDataCryptosAL(){
-        if(cryptosAL.isEmpty()){
+        if(!cryptosAL.isEmpty()){
             cantidad_tv.setVisibility(View.GONE);
             error_carga_tv.setVisibility(View.VISIBLE);
         }
@@ -178,11 +179,15 @@ public class MostrarBalanceActivity extends AppCompatActivity implements SearchV
         krakenCryptos_RV.setAdapter(kraken_adaptadorCriptomonedasRV);
     }
 
+    private void initAdapter(){
+        initAdapterKrakenCryptos();
+    }
+
     private void waitSomeSecs(){
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                initAdapterKrakenCryptos();
+                initAdapter();
             }
         }, 2000);
     }

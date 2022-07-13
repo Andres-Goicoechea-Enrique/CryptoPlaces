@@ -66,6 +66,12 @@
     <string name="btn_negative_alertdialog_activate_location">Cancel</string>
     <string name="toast_negative_alertdialog_activate_location">Location not activated</string>
 
+    <string name="title_alertdialog_subir_favs">Upload favorites to the cloud</string>
+    <string name="msg_alertdialog_subir_favs">The cloud favorites list is about to be REMOVED and replaced.\nAre you sure?</string>
+    <string name="btn_positive_alertdialog_subir_favs">Yes</string>
+    <string name="toast_positive_alertdialog_subir_favs">Uploaded data</string>
+    <string name="btn_negative_alertdialog_subir_favs">No</string>
+    <string name="toast_negative_alertdialog_subir_favs">Action was cancelled</string>
 
     <string name="toast_btn_centrar_ubicacion">Calculating current location...</string>
     <string name="toast_cambiar_mapa">Loading new map</string>

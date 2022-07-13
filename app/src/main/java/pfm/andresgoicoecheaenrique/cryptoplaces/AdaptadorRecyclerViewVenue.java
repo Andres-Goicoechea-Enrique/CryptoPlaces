@@ -107,7 +107,6 @@ public class AdaptadorRecyclerViewVenue extends RecyclerView.Adapter<AdaptadorRe
                 }
             }
             else{
-
                 for(todasCategoriasEnum categorias : todasCategoriasEnum.values()){
                     if(options[categorias.getIndex()+1]){
                         for(Venue venue: searchViewVenuesAL){
