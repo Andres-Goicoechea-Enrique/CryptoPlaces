@@ -23,6 +23,8 @@ public class DialogFragmentFilterOptions extends DialogFragment {
     private SharedPreferences sharedPrefs;
     private static final String MY_PREFERENCE = "CryptoPlaces";
     private static final String[] CODE_SHARED_PREFS_CHECKS_FILTER = {"c0", "c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "c11", "c12", "c13", "c14", "c15", "c16"};
+    private Button cancelar_BTN;
+
 
 
     @Nullable
@@ -34,15 +36,12 @@ public class DialogFragmentFilterOptions extends DialogFragment {
         initControls(view);
         initGeneralValues();
 
-        /*applyFilters.setOnClickListener(new View.OnClickListener() {
+        cancelar_BTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean [] checks = new Boolean[]{c0.isChecked(), c1.isChecked(), c2.isChecked(), c3.isChecked(), c4.isChecked(), c5.isChecked(), c6.isChecked(), c7.isChecked(), c8.isChecked(), c9.isChecked(), c10.isChecked(), c11.isChecked(), c12.isChecked(), c13.isChecked(), c14.isChecked(), c15.isChecked(), c16.isChecked()};
-                for (int i = 0; i < checks.length; i++){
-                    System.out.println("xxxxxx "+checks[i]);
-                }
+                dismiss();
             }
-        });*/
+        });
 
         setOnClickListeners();
 
@@ -70,6 +69,8 @@ public class DialogFragmentFilterOptions extends DialogFragment {
 
         checkBoxes = new CheckBox[]{c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16};
         sharedPrefs = getActivity().getSharedPreferences(MY_PREFERENCE, 0);
+
+        cancelar_BTN = view.findViewById(R.id.boton_cancel_apply_filter_id);
     }
 
     private void initGeneralValues() {

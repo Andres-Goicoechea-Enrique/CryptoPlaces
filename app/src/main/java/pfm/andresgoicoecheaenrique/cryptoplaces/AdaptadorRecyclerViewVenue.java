@@ -1,7 +1,6 @@
 package pfm.andresgoicoecheaenrique.cryptoplaces;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,18 +16,18 @@ import java.util.stream.Collectors;
 
 public class AdaptadorRecyclerViewVenue extends RecyclerView.Adapter<AdaptadorRecyclerViewVenue.ViewHolderVenue>{
 
-    private int[] colors = new int[]{R.color.CATEGORIA1, R.color.CATEGORIA2, R.color.CATEGORIA3, R.color.CATEGORIA4, R.color.CATEGORIA5, R.color.CATEGORIA6, R.color.CATEGORIA7, R.color.CATEGORIA8, R.color.CATEGORIA9, R.color.CATEGORIA10, R.color.CATEGORIA11, R.color.CATEGORIA12, R.color.CATEGORIA13, R.color.CATEGORIA14, R.color.CATEGORIA15, R.color.CATEGORIA16};
+    private final static int[] colors = new int[]{R.color.CATEGORIA1, R.color.CATEGORIA2, R.color.CATEGORIA3, R.color.CATEGORIA4, R.color.CATEGORIA5, R.color.CATEGORIA6, R.color.CATEGORIA7, R.color.CATEGORIA8, R.color.CATEGORIA9, R.color.CATEGORIA10, R.color.CATEGORIA11, R.color.CATEGORIA12, R.color.CATEGORIA13, R.color.CATEGORIA14, R.color.CATEGORIA15, R.color.CATEGORIA16};
 
     private ArrayList<Venue> venuesAL;
-    private GestorBD gBD;
+    private GestorBD_Venue gBD;
     private ArrayList<Venue> searchViewVenuesAL = new ArrayList<>();;
     private Context contexto;
     private androidx.fragment.app.FragmentManager FragManager;
 
-    public AdaptadorRecyclerViewVenue(ArrayList<Venue> venues, GestorBD gBD, Context context, androidx.fragment.app.FragmentManager FragManager) {
+    public AdaptadorRecyclerViewVenue(ArrayList<Venue> venues, GestorBD_Venue gBD, Context context, androidx.fragment.app.FragmentManager FragManager) {
         this.venuesAL = venues;
         this.gBD = gBD;
-        //this.searchViewVenuesAL = new ArrayList<>();//puede fallar
+        this.searchViewVenuesAL = new ArrayList<>();//puede fallar
         searchViewVenuesAL.addAll(venues);
         //TEST
         this.FragManager = FragManager;

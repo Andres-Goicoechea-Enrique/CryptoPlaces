@@ -18,12 +18,12 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -42,17 +42,18 @@ public class DialogFragmentVenueInfo extends DialogFragment {
 
     private ImageButton boton_share;
     private ImageButton boton_call;
+    private ImageButton boton_path;
 
-    private Venue venueDFFB;
+    public Venue venueDFFB;
 
     private String updated_on;
     private String phone;
     private String share;
     private Boolean favChecked;
 
-    private Boolean wasChecked = false;
+    private Boolean wasChecked;
 
-    private GestorBD gBD;
+    private GestorBD_Venue gBD;
     private Geocoder gcd;
 
 
@@ -68,10 +69,11 @@ public class DialogFragmentVenueInfo extends DialogFragment {
                 updated_on = String.valueOf(venueDFFB.getCreatedOn());
             }
             favChecked = getArguments().getBoolean("favChecked", false);
+            wasChecked = favChecked;
         } else {
             CommonUtils.mostrarToast(getResources().getString(R.string.error_reading_data_from_arguments), getContext());
         }
-        gBD = new GestorBD(getActivity(), CommonUtils.buildTableNameDB("test1@mail.es"));
+        gBD = new GestorBD_Venue(getActivity(), CommonUtils.buildTableNameDB("test1@mail.es"));
         gcd = new Geocoder(getActivity(), Locale.getDefault());
 
     }
@@ -88,11 +90,15 @@ public class DialogFragmentVenueInfo extends DialogFragment {
         boton_cerrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (wasChecked && !favChecked) {
-                    CommonUtils.operacionesBD(gBD, (short) 0, venueDFFB, getActivity());
-                } else if(!wasChecked && favChecked) {
-                    CommonUtils.operacionesBD(gBD, (short) 1, venueDFFB, getActivity());
+                if(wasChecked != favChecked){
+                    if (wasChecked) {
+                        CommonUtils.operacionesBD(gBD, (short) 0, venueDFFB, getActivity());
+                    } else if(!wasChecked) {
+                        CommonUtils.operacionesBD(gBD, (short) 1, venueDFFB, getActivity());
+                    }
                 }
+                //Llamo a un metodo publico de una Activity desde un DialogFragment
+                ((GoogleMapsActivity)getActivity()).initAdapterFavs();
                 dismiss();
             }
         });
@@ -123,6 +129,14 @@ public class DialogFragmentVenueInfo extends DialogFragment {
             }
         });
 
+        boton_path.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((GoogleMapsActivity)getActivity()).peticionGoogle(new LatLng(venueDFFB.getLat(), venueDFFB.getLon()));
+                dismiss();
+            }
+        });
+
         tb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,6 +161,7 @@ public class DialogFragmentVenueInfo extends DialogFragment {
         boton_cerrar = view.findViewById(R.id.boton_cerrar);
         boton_share = view.findViewById(R.id.boton_share);
         boton_call = view.findViewById(R.id.boton_call);
+        boton_path = view.findViewById(R.id.boton_route);
 
         tb = view.findViewById(R.id.toggleBTN_id);
 

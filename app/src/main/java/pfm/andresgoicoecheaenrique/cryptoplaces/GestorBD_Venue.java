@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class GestorBD extends SQLiteOpenHelper {
+public class GestorBD_Venue extends SQLiteOpenHelper {
 
     private static final String NOMBRE_BD = "CRYPTO_PLACES";
     private static final int VERSION_BD = 1;
@@ -31,7 +31,7 @@ public class GestorBD extends SQLiteOpenHelper {
     private String CREATE_TABLE_FAVORITOS;
 
 
-    public GestorBD(@Nullable Context context, String tabla_FAVS_USUARIO) {
+    public GestorBD_Venue(@Nullable Context context, String tabla_FAVS_USUARIO) {
         super(context, NOMBRE_BD, null, VERSION_BD);
         this.TABLA_FAVS_BD = tabla_FAVS_USUARIO;
         this.CREATE_TABLE_FAVORITOS = "CREATE TABLE IF NOT EXISTS " + TABLA_FAVS_BD + "("

@@ -10,8 +10,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -25,16 +23,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.ActionMenuItemView;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -55,8 +49,6 @@ import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationClickListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -70,25 +62,19 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.maps.android.clustering.ClusterManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import pfm.andresgoicoecheaenrique.cryptoplaces.Kraken.AdaptadorRecyclerViewAPIs;
 import pfm.andresgoicoecheaenrique.cryptoplaces.Kraken.AdaptadorRecyclerViewBalance;
 import pfm.andresgoicoecheaenrique.cryptoplaces.Kraken.Criptomoneda;
 import pfm.andresgoicoecheaenrique.cryptoplaces.Kraken.ExchangeAPI;
@@ -201,6 +187,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
     private LocationManager locationManager;
 
+
     // No usar o poner la de todos los venues
     private final String urlCoinmap200Establecimientos = "https://coinmap.org/api/v1/venues/?lat1=27.045583057045775&lat2=44.136101471190756&lon1=-19.78248272986727&lon2=6.318913375760843&limit=100"; //200
 
@@ -216,7 +203,8 @@ public class GoogleMapsActivity extends AppCompatActivity
     private static final short DEFAULT_TIMEOUT_MS = 3000;
 
     DialogCarga dialogCarga = new DialogCarga(GoogleMapsActivity.this);
-    private GestorBD gBD;
+    private GestorBD_Venue gBD;
+    private GestorBD_API_Kraken gBD_API;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,7 +227,9 @@ public class GoogleMapsActivity extends AppCompatActivity
 
 
 
-        gBD = new GestorBD(this, CommonUtils.buildTableNameDB("test1@mail.es"));//correoUsuario);
+        gBD = new GestorBD_Venue(this, CommonUtils.buildTableNameDB("test1@mail.es"));//correoUsuario);
+        gBD_API = new GestorBD_API_Kraken(this, CommonUtils.buildTableNameDB("test1@mail.es"));//correoUsuario);
+
         //Doc ref DB Firestore
         System.out.println("xxx "+correoUsuario+"  sdas: "+contraseñaUsuario);//
         //DocRef = db.document("users/" + correoUsuario);
@@ -356,14 +346,15 @@ public class GoogleMapsActivity extends AppCompatActivity
 
         kraken_LL = (LinearLayout) findViewById(R.id.kraken_id_LL);
         krakenAPIs_RV = (RecyclerView) findViewById(R.id.krakenAPIsRV_id);
-        //krakenCryptos_RV = (RecyclerView) findViewById(R.id.krakenCryptosRV_id);
 
         botones = new Button[]{btn_mapa, btn_cerca, btn_favs, btn_kraken, btn_all};
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         AddKrakenAPI_FAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialogFragmentNewAPI.setCancelable(false);
                 dialogFragmentNewAPI.show(getSupportFragmentManager(), "GoogleMapsDialogFragmentNewExchangeAPI");
             }
         });
@@ -524,12 +515,11 @@ public class GoogleMapsActivity extends AppCompatActivity
         } else if (RVcode == 3) {//kraken
             //initAdapters();
             //init
-            String key = "";
+            /*String key = "";
             String secret = "";
             apisAL.add(new ExchangeAPI("test", key, secret));
-            apisAL.add(new ExchangeAPI("test2", key, secret));
+            apisAL.add(new ExchangeAPI("test2", key, secret));*/
             initAdapterKrakenAPIs();
-            //initAdapterKrakenCryptos();
 
             search_and_num_id_LL.setVisibility(View.VISIBLE);
             map_LL.setVisibility(View.GONE);
@@ -577,7 +567,7 @@ public class GoogleMapsActivity extends AppCompatActivity
         cercaVenues_RV.setAdapter(cerca_adaptadorVenuesRV);
     }
 
-    protected void initAdapterFavs() {
+    public void initAdapterFavs() {
         leerBBDDSQLite();
         favsVenues_RV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         favsVenues_RV.setNestedScrollingEnabled(true);
@@ -599,13 +589,16 @@ public class GoogleMapsActivity extends AppCompatActivity
         allVenues_RV.setAdapter(all_adaptadorVenuesRV);
     }
 
-    private void initAdapterKrakenAPIs() {//krakenapis
+    public void initAdapterKrakenAPIs() {//krakenapis
+        apisAL.clear();
+        apisAL = gBD_API.getAllApis("NAME", "ASC");
+
         krakenAPIs_RV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         krakenAPIs_RV.setNestedScrollingEnabled(true);
 
         cantidad_tv.setText(getResources().getString(R.string.cantidad1_tv) + apisAL.size() + getResources().getString(R.string.cantidad3_apis_tv));
 
-        kraken_adaptadorAPIsRV = new AdaptadorRecyclerViewAPIs(apisAL, cantidad_tv, this);
+        kraken_adaptadorAPIsRV = new AdaptadorRecyclerViewAPIs(apisAL, gBD_API, cantidad_tv, this);
         krakenAPIs_RV.setAdapter(kraken_adaptadorAPIsRV);
     }
 
@@ -781,7 +774,8 @@ public class GoogleMapsActivity extends AppCompatActivity
     // Abrir frqagmento para ver venue info
     private void crearDialogFragmentVenueInfo(Long id) {
         String url = "https://coinmap.org/api/v1/venues/" + id;
-        jsonParse(url, 2);
+        CommonUtils.jsonParse(url, favsVenuesAL, this, getSupportFragmentManager());
+        //jsonParse(url, 2);
     }
 
     // Mostrar un toast corto
@@ -847,7 +841,8 @@ public class GoogleMapsActivity extends AppCompatActivity
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                            } else if (code == 1) {// Peticion API Google
+                            }
+                            else if (code == 1) {// Peticion API Google
                                 PolylineOptions polyOptions = new PolylineOptions();
                                 try {
                                     String statusPET = response.getString("status");
@@ -926,38 +921,6 @@ public class GoogleMapsActivity extends AppCompatActivity
                                     }
                                     createAL50km(nearBoxAL);
                                     initAdapterNear();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            // Peticion API Coinmap venue info
-                            else {
-                                try {//pasarlo al coommonutils
-                                    jsonObjectVenueDetails = response.getJSONObject("venue");
-
-                                    // Guardar todos los datos, pero no da tiempo
-                                    venueDFFB = convertDataForVenue(
-                                            jsonObjectVenueDetails.getString("id"),
-                                            jsonObjectVenueDetails.getString("lat"),
-                                            jsonObjectVenueDetails.getString("lon"),
-                                            jsonObjectVenueDetails.getString("category"),
-                                            jsonObjectVenueDetails.getString("name"),
-                                            jsonObjectVenueDetails.getString("created_on"),
-                                            jsonObjectVenueDetails.getString("geolocation_degrees")
-                                    );
-                                    coordenadasDestino = new LatLng(venueDFFB.getLat(), venueDFFB.getLon());
-
-                                    Bundle bundle = new Bundle();
-                                    bundle.putSerializable("venue", venueDFFB);
-                                    bundle.putString("updated_on", jsonObjectVenueDetails.getString("updated_on"));
-                                    bundle.putString("phone", jsonObjectVenueDetails.getString("phone"));
-                                    bundle.putBoolean("favChecked", isVenueInFavsAL());
-
-
-                                    dialogFragmentVenueInfo = new DialogFragmentVenueInfo();
-                                    dialogFragmentVenueInfo.setArguments(bundle);
-                                    dialogFragmentVenueInfo.show(getSupportFragmentManager(), "GoogleMapsDialogFragmentVenueInfo");
-
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -1055,10 +1018,18 @@ public class GoogleMapsActivity extends AppCompatActivity
         constructor.create().show();
     }
 
-    // Peticion Volley a la API de Google, solo coche
-    private void peticionGoogle(LatLng origin, LatLng dest) {
-        String url = buildUrl(origin, dest);
-        jsonParse(url, 1);
+    // Peticion Volley a la API de Google, solo coche     // GENERATE ROUTE TO VENUE
+    public void peticionGoogle(LatLng destino) {
+        if (!isLocationEnabled()) {
+            CommonUtils.crearAlert((short) 1, this);
+        } else {
+            coordenadasOrigen = new LatLng(map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude());
+            if(btn_selected != 0){// MAPA
+                comprobarBTN((short) 0);//Poner vista del mapa
+            }
+            String url = buildUrl(coordenadasOrigen, destino);
+            jsonParse(url, 1);
+        }
     }
 
     /**
@@ -1099,20 +1070,12 @@ public class GoogleMapsActivity extends AppCompatActivity
         enableMyLocation();
         checkLocation();
         jsonParse("https://coinmap.org/api/v1/venues/?after=2022-01-01&before=2023-01-01", 0);
+        map.setOnMarkerClickListener(this);//Saber que marcador hemos seleccionado
+
         //"https://coinmap.org/api/v1/venues/?lat1=40.3018183&lat2=40.501818300000004&lon1=-3.7512897738859636&lon2=-3.5989862261140364&limit=100"
 
         //addMarkersAL(venuesAL);
         //https://coinmap.org/api/v1/venues/?lat1=39.4018336&lat2=41.4018336&lon1=-4.436671765782216&lon2=-2.9136366342177844&limit=100
-        map.setOnMarkerClickListener(this);//Saber que marcador hemos seleccionado
-
-        /*map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-
-                // para el boton aunque seguramente quito
-            }
-        });*/
-
     }
 
     /**
@@ -1120,22 +1083,8 @@ public class GoogleMapsActivity extends AppCompatActivity
      */
     @Override
     public boolean onMarkerClick(final Marker marker) {
-
         // Retrieve the data from the marker.
         Long venueId = (Long) marker.getTag();
-
-        //Se puede quitar
-
-        /*Integer index = -1;
-        // Check if a click count was set, then display the click count.
-        for (int i = 0; i < venuesAL.size(); i++) {
-            if (venuesAL.get(i).getId() == venueId) {
-                index = i;
-                break;
-            }
-        }
-        coordenadasDestino = new LatLng(venuesAL.get(index).getLat(), venuesAL.get(index).getLon());
-        mostrarToast("Destino: " + coordenadasDestino);*/
 
         crearDialogFragmentVenueInfo(venueId);
 
@@ -1191,7 +1140,7 @@ public class GoogleMapsActivity extends AppCompatActivity
      */
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Current location:\n" + location, Toast.LENGTH_LONG).show();
     }
 
     // [START maps_check_location_permission_result]
@@ -1238,26 +1187,9 @@ public class GoogleMapsActivity extends AppCompatActivity
      * ***** *****   NEW CODE   ***** *****
      */
 
-    public void deleteApiBTN(View view) {
-
-    }
-
-
     /**
      * ***** *****   CODE DIALOG FRAGMENT VENUE INFO   ***** *****
      */
-
-    // GENERATE ROUTE TO VENUE
-    public void routeBTN(View view) {
-        //Y poner la vista del mapa
-        if (!isLocationEnabled()) {
-            CommonUtils.crearAlert((short) 1, this);
-        } else {
-            dialogFragmentVenueInfo.dismiss();
-            coordenadasOrigen = new LatLng(map.getMyLocation().getLatitude(), map.getMyLocation().getLongitude());
-            peticionGoogle(coordenadasOrigen, coordenadasDestino);
-        }
-    }
 
     private boolean isVenueInFavsAL() {
         Boolean resul = false;
@@ -1302,15 +1234,6 @@ public class GoogleMapsActivity extends AppCompatActivity
                                                 String.valueOf(((Map) listFavs.get(i)).get("createdOn")),
                                                 String.valueOf(((Map) listFavs.get(i)).get("geolocation_degrees"))
                                         ), getApplicationContext());
-                                    /*favsVenuesAL.add(convertDataForVenue(
-                                            String.valueOf(((Map) listFavs.get(i)).get("id")),
-                                            String.valueOf(((Map) listFavs.get(i)).get("lat")),
-                                            String.valueOf(((Map) listFavs.get(i)).get("lon")),
-                                            String.valueOf(((Map) listFavs.get(i)).get("category")),
-                                            String.valueOf(((Map) listFavs.get(i)).get("name")),
-                                            String.valueOf(((Map) listFavs.get(i)).get("createdOn")),
-                                            String.valueOf(((Map) listFavs.get(i)).get("geolocation_degrees"))
-                                    ));*/
                                         initAdapterFavs();
                                     }
                                 }
@@ -1368,8 +1291,8 @@ public class GoogleMapsActivity extends AppCompatActivity
         String str = "apiName.getText().toString()";
         Button boton_crear = view.findViewById(R.id.boton_crear_id);
         mostrarToast("xxx"+tv1.getText());*/
-        ExchangeAPI newAPI = new ExchangeAPI("hola", "key.getText().toString()", "secret.getText().toString()");
-        apisAL.add(newAPI);
+        //ExchangeAPI newAPI = new ExchangeAPI("hola", "key.getText().toString()", "secret.getText().toString()");
+        //apisAL.add(newAPI);
         dialogFragmentNewAPI.dismiss();
         initAdapterKrakenAPIs();
     }

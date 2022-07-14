@@ -24,7 +24,7 @@
     <string name="msg_alertdialog2">Se ha cerrado la sesión</string>
     <string name="title_alertdialog3">NO HAY CONEXIÓN A INTERNET</string>
     <string name="msg_alertdialog3">Comprueba la conexión a internet</string>
-    <string name="neutral_btn_alertdialog">Aceptar</string>
+    <string name="neutral_btn_alertdialog">Reintentar</string>
 
     title_alertdialog_subir_favs
 
@@ -118,11 +118,6 @@
     <string name="map_type_3">MAPA HÍBRIDO</string>
     <string name="map_type_4">MAPA TERRENO</string>
 
-   <!-- <string name="descargar_firebase_txt">Descargar lista de la nube</string>
-    <string name="subir_firebase_txt">Subir lista a la nube</string>-->
-
-    <!--<string name="mi_ubicacion_actual">Actualizar tiendas</string>&lt;!&ndash;quitar&ndash;&gt;
-    <string name="search">Buscar tienda</string>-->
     <string name="aboutUS">Acerca de</string>
     <string name="exit">Salir de la app</string>
 
@@ -160,6 +155,19 @@
 
 
     <!-- DialogFragmentNewExchangeAPI.java -->
+    <string name="Input_Error_name">El nombre es demasiado largo.</string>
+    <string name="Input_Error_key1">La clave API es demasiado corta</string>
+    <string name="Input_Error_key2">La clave API es demasiado larga</string>
+    <string name="Input_Error_secret1">La clave secreta es demasiado corta</string>
+    <string name="Input_Error_secret2">La clave secreta es demasiado larga</string>
+
+    <string name="error_reading_data_from_form_new_API">Comprueba los datos introducidos.</string>
+
+
+
+
+
+
 
     <!-- Layout DialogFragmentNewExchangeAPI.xml -->
     <string name="title_df_new_api">CREAR NUEVA API</string>
@@ -186,6 +194,8 @@
     <string name="title_df_filter">FILTRAR CATEGORÍA</string>
     <string name="checkbox_text_all">TODOS</string>
     <string name="BTN_apply_filter">APLICAR FILTRO</string>
+    <string name="BTN_cancel_apply_filter">CANCELAR</string>
+
 
     <!-- ExampleActivity.java -->
 

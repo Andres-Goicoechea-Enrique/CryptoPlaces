@@ -6,6 +6,7 @@ import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import pfm.andresgoicoecheaenrique.cryptoplaces.R;
+import pfm.andresgoicoecheaenrique.cryptoplaces.Venue;
 
 public class MostrarBalanceActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -36,16 +38,31 @@ public class MostrarBalanceActivity extends AppCompatActivity implements SearchV
     private RecyclerView krakenCryptos_RV;
     private AdaptadorRecyclerViewBalance kraken_adaptadorCriptomonedasRV;
 
+    private ExchangeAPI exchangeAPI;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostrar_balance);
 
-        exeThreadKrakenCryptos();
-        waitSomeSecs();
+        Bundle extras = getIntent().getExtras();
+
+        if(extras != null) {
+            exchangeAPI = (ExchangeAPI) extras.getSerializable("api_selected");
+        }
+
+
         initToolbar();
         initControls();
         initListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        exeThreadKrakenCryptos();
+        waitSomeSecs();
     }
 
     private void initToolbar() {
@@ -66,15 +83,12 @@ public class MostrarBalanceActivity extends AppCompatActivity implements SearchV
     private void exeThreadKrakenCryptos(){
         KrakenAPIcode api = new KrakenAPIcode();
 
-        String key = "";
-        String secret = "";
-
         Thread thread = new Thread(new Runnable() {
 
             @Override
             public void run() {
                 try {
-                    obtenerInfo(api.petBalance(key, secret));
+                    obtenerInfo(api.petBalance(exchangeAPI.getKey(), exchangeAPI.getSecret()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -188,6 +202,6 @@ public class MostrarBalanceActivity extends AppCompatActivity implements SearchV
             public void run() {
                 initAdapter();
             }
-        }, 2000);
+        }, 2500);
     }
 }

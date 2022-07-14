@@ -175,7 +175,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/boton_crear_id"
+                        android:id="@+id/boton_crear_api_id"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

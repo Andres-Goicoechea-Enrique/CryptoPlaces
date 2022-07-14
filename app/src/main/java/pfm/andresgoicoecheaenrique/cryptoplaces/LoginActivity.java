@@ -39,10 +39,6 @@ import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private RequestQueue mQueue;
-    private ArrayList<Venue> venuesAL = new ArrayList<Venue>();
-
-
     private static final String ACCION_REGISTRAR = "reg";
     private static final String ACCION_ACCEDER = "acc";
 
@@ -56,8 +52,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-    //DialogCarga dialogCarga = new DialogCarga(LoginActivity.this);
-    //private Handler mainHandler = new Handler();
+    private DialogCarga dialogCarga = new DialogCarga(LoginActivity.this);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +77,6 @@ public class LoginActivity extends AppCompatActivity {
         contraseñaUsuario.setText("");
     }
 
-
-
     private void initForm(){
         correoUsuario = (EditText) findViewById(R.id.campo_correo);
         contraseñaUsuario = (EditText) findViewById(R.id.campo_contraseña);
@@ -93,12 +87,14 @@ public class LoginActivity extends AppCompatActivity {
         registrarBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialogCarga.startLoadingDialog();
                 checkCondiciones(ACCION_REGISTRAR);
             }
         });
         accederBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialogCarga.startLoadingDialog();
                 checkCondiciones(ACCION_ACCEDER);
             }
         });
@@ -120,9 +116,11 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
+                                        dialogCarga.dismissDialog();
                                         moverMainActivity();
                                     } else {
                                         // If sign in fails, display a message to the user.
+                                        dialogCarga.dismissDialog();
                                         crearAlert(0);
                                     }
                                 }
@@ -135,9 +133,11 @@ public class LoginActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
+                                        dialogCarga.dismissDialog();
                                         moverMainActivity();
                                     } else {
                                         // If sign in fails, display a message to the user.
+                                        dialogCarga.dismissDialog();
                                         crearAlert(0);
                                     }
                                 }
@@ -145,11 +145,13 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
             else{// campos invalidos
+                dialogCarga.dismissDialog();
                 CommonUtils.mostrarToast(getResources().getString(R.string.Input_Error_fields), this);
             }
         }
         else{// No internet
-            crearAlert(2);
+            dialogCarga.dismissDialog();
+            CommonUtils.crearAlert((short) 2, this);
         }
     }
 
@@ -216,14 +218,9 @@ public class LoginActivity extends AppCompatActivity {
             constructor.setMessage(getResources().getString(R.string.msg_alertdialog1));
             constructor.setNeutralButton(getResources().getString(R.string.neutral_btn_alertdialog), null);
         }
-        else if(code == 1){
+        else {//CIERRE DE SESION
             constructor.setTitle(getResources().getString(R.string.title_alertdialog2));
             constructor.setMessage(getResources().getString(R.string.msg_alertdialog2));
-            constructor.setNeutralButton(getResources().getString(R.string.neutral_btn_alertdialog), null);
-        }
-        else{//COMMON UTILS
-            constructor.setTitle(getResources().getString(R.string.title_alertdialog3));
-            constructor.setMessage(getResources().getString(R.string.msg_alertdialog3));
             constructor.setNeutralButton(getResources().getString(R.string.neutral_btn_alertdialog), null);
         }
 
@@ -232,30 +229,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private void moverMainActivity(){
         //Nos vamos a la siguiente Activity
-        if(!isGooglePlayServicesAvailable()){
-            finish();
-        }
-        else{
-            sharedPrefs = getSharedPreferences(MY_PREFERENCE, MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPrefs.edit();
-            editor.putString("email", correoUsuario.getText().toString());
-            editor.putString("passw", contraseñaUsuario.getText().toString());
-            editor.commit();
+        sharedPrefs = getSharedPreferences(MY_PREFERENCE, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putString("email", correoUsuario.getText().toString());
+        editor.putString("passw", contraseñaUsuario.getText().toString());
+        editor.commit();
 
-            Intent intent = new Intent(LoginActivity.this, GoogleMapsActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    private boolean isGooglePlayServicesAvailable(){
-        boolean resul = true;
-        GoogleApiAvailability gApi = GoogleApiAvailability.getInstance();
-        int resultCode = gApi.isGooglePlayServicesAvailable(this);
-        CommonUtils.mostrarToast(""+resultCode,this);//quitar
-        if (resultCode != ConnectionResult.SUCCESS) {
-            CommonUtils.mostrarToast("toast_playservices_unrecoverable",this);
-            resul = false;
-        }
-        return resul;
+        Intent intent = new Intent(LoginActivity.this, GoogleMapsActivity.class);
+        startActivity(intent);
     }
 }

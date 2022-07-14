@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 public class DialogCarga {
 
     private Activity activity;
-    private AlertDialog alertDialog;//
+    private AlertDialog alertDialog;
 
     public DialogCarga(Activity activity) {
         this.activity = activity;
@@ -17,7 +17,7 @@ public class DialogCarga {
         AlertDialog.Builder constructor = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
         constructor.setView(inflater.inflate(R.layout.custom_loading_dialog, null));
-        constructor.setCancelable(false);//false
+        constructor.setCancelable(false);
 
         alertDialog = constructor.create();
         alertDialog.show();

@@ -18,13 +18,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import pfm.andresgoicoecheaenrique.cryptoplaces.Kraken.ExchangeAPI;
 
 
 public abstract class CommonUtils {
@@ -35,7 +36,7 @@ public abstract class CommonUtils {
     /**
      * GESTIONAR BD
      */
-    protected static void operacionesBD(GestorBD gBD, short codeOperacion, Venue venue, Context context){
+    protected static void operacionesBD(GestorBD_Venue gBD, short codeOperacion, Venue venue, Context context){
         if(codeOperacion == 0){// Insertar Venue
             long id1 = gBD.insertarNewVenue(venue);
             mostrarToast("ID: "+id1, context);
@@ -50,8 +51,24 @@ public abstract class CommonUtils {
     /**
      * Leer BD
      */
-    protected static ArrayList<Venue> leerBBDDSQLite(GestorBD gBD){//ordenar
+    protected static ArrayList<Venue> leerBBDDSQLite(GestorBD_Venue gBD){//ordenar
         return gBD.getAllVenues("NAME", "ASC");
+    }
+
+    /**
+     * GESTIONAR BD APIS
+     */
+    protected static void operacionesBDAPIS(GestorBD_API_Kraken gBD, short codeOperacion, ExchangeAPI api, Context context){
+        if(codeOperacion == 0){// Insertar API
+            long id1 = gBD.insertarNewAPI(api);
+            mostrarToast("ID: "+id1, context);
+        }
+        else if(codeOperacion == 1){// Eliminar API
+            gBD.borrarAPI(api.getId());
+        }
+        else{
+            mostrarToast("Error", context);
+        }
     }
 
     /**
@@ -69,7 +86,7 @@ public abstract class CommonUtils {
     protected static void crearAlert(short code, Context context) {
 
         AlertDialog.Builder constructor = new AlertDialog.Builder(context);
-        constructor.setCancelable(true);
+        constructor.setCancelable(false);
         if (code == 0) {// Muestra la informacion de Acerca de
             constructor.setTitle(context.getResources().getString(R.string.title_alertdialog_aboutus) + context.getResources().getString(R.string.app_name))
                     .setMessage(context.getResources().getString(R.string.msg_alertdialog_aboutus))
@@ -190,8 +207,6 @@ public abstract class CommonUtils {
                                         jsonObjectVenueDetails.getString("created_on"),
                                         jsonObjectVenueDetails.getString("geolocation_degrees")
                                 );
-                                //shared references
-                                //coordenadasDestino = new LatLng(venueDFFB.getLat(), venueDFFB.getLon());
 
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("venue", venueDFFB);
@@ -211,7 +226,7 @@ public abstract class CommonUtils {
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    //mostrarToast(getResources().getString(R.string.toast_error_peticion_coinmap) + error);
+                    mostrarToast(context.getResources().getString(R.string.toast_error_peticion_coinmap), context);
                     error.printStackTrace();
                 }
             });

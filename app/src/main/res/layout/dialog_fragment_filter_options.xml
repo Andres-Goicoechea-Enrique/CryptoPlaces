@@ -203,7 +203,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/border"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -215,6 +215,29 @@
                     android:layout_weight="1"
                     android:backgroundTint="@color/greenAccent"
                     android:text="@string/BTN_apply_filter"
+                    android:textColor="@color/black"
+                    android:onClick="aplicarFiltroBTN"/>
+            </LinearLayout>
+
+            <!-- CANCELAR FILTRO DF -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/border"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/boton_cancel_apply_filter_id"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/redAccent"
+                    android:text="@string/BTN_cancel_apply_filter"
                     android:textColor="@color/black"
                     android:onClick="aplicarFiltroBTN"/>
             </LinearLayout>
