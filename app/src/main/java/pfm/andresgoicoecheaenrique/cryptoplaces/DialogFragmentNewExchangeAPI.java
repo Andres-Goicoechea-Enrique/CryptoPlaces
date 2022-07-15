@@ -24,6 +24,8 @@ public class DialogFragmentNewExchangeAPI extends DialogFragment {
     private String key = "";
     private String secret = "";
 
+    private String correoUsuario;
+
     private Button boton_crear;
     private Button boton_cerrar;
 
@@ -34,7 +36,13 @@ public class DialogFragmentNewExchangeAPI extends DialogFragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-        gestorBD_api_kraken = new GestorBD_API_Kraken(getActivity(), CommonUtils.buildTableNameDB("test1@mail.es"));
+        correoUsuario = CommonUtils.readCorreoUsuario(getContext());
+        if(correoUsuario == "null"){
+            CommonUtils.mostrarToast("Error", getActivity());
+        }
+        else{
+            gestorBD_api_kraken = new GestorBD_API_Kraken(getActivity(), CommonUtils.buildTableNameDB(correoUsuario));
+        }
     }
 
     @Nullable

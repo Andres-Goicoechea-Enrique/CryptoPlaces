@@ -1,6 +1,7 @@
 package pfm.andresgoicoecheaenrique.cryptoplaces;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -52,8 +53,10 @@ public class DialogFragmentVenueInfo extends DialogFragment {
     private Boolean favChecked;
 
     private Boolean wasChecked;
+    private Boolean isFAVS;
 
     private GestorBD_Venue gBD;
+    private String correoUsuario;
     private Geocoder gcd;
 
 
@@ -70,10 +73,17 @@ public class DialogFragmentVenueInfo extends DialogFragment {
             }
             favChecked = getArguments().getBoolean("favChecked", false);
             wasChecked = favChecked;
+            isFAVS = getArguments().getBoolean("isFavs", false);
         } else {
             CommonUtils.mostrarToast(getResources().getString(R.string.error_reading_data_from_arguments), getContext());
         }
-        gBD = new GestorBD_Venue(getActivity(), CommonUtils.buildTableNameDB("test1@mail.es"));
+        correoUsuario = CommonUtils.readCorreoUsuario(getContext());
+        if(correoUsuario == "null"){
+            CommonUtils.mostrarToast("Error", getActivity());
+        }
+        else{
+            gBD = new GestorBD_Venue(getActivity(), CommonUtils.buildTableNameDB(correoUsuario));
+        }
         gcd = new Geocoder(getActivity(), Locale.getDefault());
 
     }
@@ -97,8 +107,10 @@ public class DialogFragmentVenueInfo extends DialogFragment {
                         CommonUtils.operacionesBD(gBD, (short) 1, venueDFFB, getActivity());
                     }
                 }
-                //Llamo a un metodo publico de una Activity desde un DialogFragment
-                ((GoogleMapsActivity)getActivity()).initAdapterFavs();
+                if(isFAVS){
+                    //Llamo a un metodo publico de una Activity desde un DialogFragment
+                    ((GoogleMapsActivity)getActivity()).initAdapterFavs();
+                }
                 dismiss();
             }
         });

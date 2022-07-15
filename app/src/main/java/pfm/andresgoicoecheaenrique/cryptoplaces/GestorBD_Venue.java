@@ -61,7 +61,6 @@ public class GestorBD_Venue extends SQLiteOpenHelper {
     // Por categoria de otra manera o en el propio buscador
     //Leer todos los venues de la BD.  EL (orderBy) ORDER BY SERA LA COLUMNA NOMBRE DE FORMA ALFABETICA
     public ArrayList<Venue> getAllVenues(String column, String order){
-        System.out.println("getAllVenues");
         ArrayList<Venue> venuesAL = new ArrayList<Venue>();
 
         //String consulta_getAllContacts = "SELECT * FROM " + NOMBRE_TABLA_BD + " ORDER BY " + col_nombre + " " + order;

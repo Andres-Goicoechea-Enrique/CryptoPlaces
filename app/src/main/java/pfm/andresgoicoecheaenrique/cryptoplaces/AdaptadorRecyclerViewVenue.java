@@ -23,8 +23,9 @@ public class AdaptadorRecyclerViewVenue extends RecyclerView.Adapter<AdaptadorRe
     private ArrayList<Venue> searchViewVenuesAL = new ArrayList<>();;
     private Context contexto;
     private androidx.fragment.app.FragmentManager FragManager;
+    private Boolean isFavs;
 
-    public AdaptadorRecyclerViewVenue(ArrayList<Venue> venues, GestorBD_Venue gBD, Context context, androidx.fragment.app.FragmentManager FragManager) {
+    public AdaptadorRecyclerViewVenue(ArrayList<Venue> venues, GestorBD_Venue gBD, Context context, androidx.fragment.app.FragmentManager FragManager, Boolean isFavs) {
         this.venuesAL = venues;
         this.gBD = gBD;
         this.searchViewVenuesAL = new ArrayList<>();//puede fallar
@@ -32,6 +33,7 @@ public class AdaptadorRecyclerViewVenue extends RecyclerView.Adapter<AdaptadorRe
         //TEST
         this.FragManager = FragManager;
         this.contexto = context;
+        this.isFavs = isFavs;
     }
 
     @NonNull
@@ -52,7 +54,7 @@ public class AdaptadorRecyclerViewVenue extends RecyclerView.Adapter<AdaptadorRe
             public void onClick(View v) {
 
                 String url = "https://coinmap.org/api/v1/venues/" + venue.getId();
-                CommonUtils.jsonParse(url, CommonUtils.leerBBDDSQLite(gBD), contexto, FragManager);
+                CommonUtils.jsonParse(url, CommonUtils.leerBBDDSQLite(gBD), contexto, FragManager, isFavs);
             }
         });
     }

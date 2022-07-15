@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -182,7 +183,7 @@ public abstract class CommonUtils {
     /**
      * Datos venue
      */
-    protected static void jsonParse(String url, ArrayList<Venue> favsVenuesAL, Context context, androidx.fragment.app.FragmentManager FragManager){// short code,
+    protected static void jsonParse(String url, ArrayList<Venue> favsVenuesAL, Context context, androidx.fragment.app.FragmentManager FragManager, Boolean isFavs){// short code,
         if(!isInternetEnabled(context)){
             crearAlert((short) 2, context);
         }
@@ -213,6 +214,7 @@ public abstract class CommonUtils {
                                 bundle.putString("updated_on", jsonObjectVenueDetails.getString("updated_on"));
                                 bundle.putString("phone", jsonObjectVenueDetails.getString("phone"));
                                 bundle.putBoolean("favChecked", isVenueInFavsAL(favsVenuesAL, venueDFFB));
+                                bundle.putBoolean("isFavs", isFavs);
 
 
                                 DialogFragmentVenueInfo dialogFragmentVenueInfo = new DialogFragmentVenueInfo();
@@ -254,5 +256,13 @@ public abstract class CommonUtils {
         }
         return resul;
     }
+/**
+ * Comprobar si el venue esta en la lista de favoritos
+ */
+    protected static String readCorreoUsuario(Context context){
+        SharedPreferences sharedPrefs = context.getSharedPreferences("CryptoPlaces", 0);
+        return sharedPrefs.getString("email", "null");
+    }
+
 
 }

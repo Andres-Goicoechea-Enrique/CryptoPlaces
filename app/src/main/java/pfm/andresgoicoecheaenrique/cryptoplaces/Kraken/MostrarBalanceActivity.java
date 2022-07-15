@@ -171,7 +171,7 @@ public class MostrarBalanceActivity extends AppCompatActivity implements SearchV
     }
 
     private void checkDataCryptosAL(){
-        if(!cryptosAL.isEmpty()){
+        if(cryptosAL.isEmpty()){
             cantidad_tv.setVisibility(View.GONE);
             error_carga_tv.setVisibility(View.VISIBLE);
         }
@@ -202,6 +202,6 @@ public class MostrarBalanceActivity extends AppCompatActivity implements SearchV
             public void run() {
                 initAdapter();
             }
-        }, 2500);
+        }, 2000);
     }
 }

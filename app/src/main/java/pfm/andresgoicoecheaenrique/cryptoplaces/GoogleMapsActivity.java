@@ -215,24 +215,30 @@ public class GoogleMapsActivity extends AppCompatActivity
         mapFragment.getMapAsync(this);
 
         sharedPrefs = getSharedPreferences(MY_PREFERENCE, MODE_PRIVATE);
-        correoUsuario = sharedPrefs.getString("email", null);
-        contraseñaUsuario = sharedPrefs.getString("passw", null);
+        correoUsuario = sharedPrefs.getString("email", "");
+        contraseñaUsuario = sharedPrefs.getString("passw", "");
+
+        // Borrar
+        correoUsuario = "test@mail.es";
+        contraseñaUsuario = "Test5555";
 
         //init
         SharedPreferences.Editor editor = sharedPrefs.edit();
         for(int i = 0; i < checksFilter.length; i++){
             editor.putBoolean(CODE_SHARED_PREFS_CHECKS_FILTER[i], checksFilter[i]);
         }
+        editor.putString("email", correoUsuario);
+        editor.putString("passw", contraseñaUsuario);
         editor.commit();
 
 
 
-        gBD = new GestorBD_Venue(this, CommonUtils.buildTableNameDB("test1@mail.es"));//correoUsuario);
-        gBD_API = new GestorBD_API_Kraken(this, CommonUtils.buildTableNameDB("test1@mail.es"));//correoUsuario);
+        gBD = new GestorBD_Venue(this, CommonUtils.buildTableNameDB(correoUsuario));
+        gBD_API = new GestorBD_API_Kraken(this, CommonUtils.buildTableNameDB(correoUsuario));
 
         //Doc ref DB Firestore
         System.out.println("xxx "+correoUsuario+"  sdas: "+contraseñaUsuario);//
-        //DocRef = db.document("users/" + correoUsuario);
+        DocRef = db.document("users/" + correoUsuario);
 
         //Inits
         initToolbar();
@@ -245,7 +251,7 @@ public class GoogleMapsActivity extends AppCompatActivity
         //dialogCarga.startLoadingDialog();
         //dialogCarga.dismissDialog();
     }
-
+//?
     private void peticionAllVenues(String url) {
         mQueue = Volley.newRequestQueue(this);
         dialogCarga.startLoadingDialog();
@@ -468,13 +474,6 @@ public class GoogleMapsActivity extends AppCompatActivity
     }
 
     private void initRV(short RVcode) {
-        //Inicialmente
-        /*map_LL.setVisibility(View.VISIBLE);
-        cercaVenues_RV.setVisibility(View.GONE);
-        favsVenues_RV.setVisibility(View.GONE);
-        krakenVenues_RV.setVisibility(View.GONE);
-        buscarVenues_RV.setVisibility(View.GONE);*/
-
         clearSearchView();
         if (RVcode == 0) {//mapa
             search_and_num_id_LL.setVisibility(View.GONE);
@@ -500,7 +499,7 @@ public class GoogleMapsActivity extends AppCompatActivity
             subirFirebase_FAB.setVisibility(View.GONE);
         }
         else if (RVcode == 2) {//favs
-            initAdapterFavs();//leerFavs();
+            initAdapterFavs();
             search_and_num_id_LL.setVisibility(View.VISIBLE);
             map_LL.setVisibility(View.GONE);
             cercaVenues_RV.setVisibility(View.GONE);
@@ -513,12 +512,6 @@ public class GoogleMapsActivity extends AppCompatActivity
             descargarFirebase_FAB.setVisibility(View.VISIBLE);
             subirFirebase_FAB.setVisibility(View.VISIBLE);
         } else if (RVcode == 3) {//kraken
-            //initAdapters();
-            //init
-            /*String key = "";
-            String secret = "";
-            apisAL.add(new ExchangeAPI("test", key, secret));
-            apisAL.add(new ExchangeAPI("test2", key, secret));*/
             initAdapterKrakenAPIs();
 
             search_and_num_id_LL.setVisibility(View.VISIBLE);
@@ -527,14 +520,11 @@ public class GoogleMapsActivity extends AppCompatActivity
             favsVenues_RV.setVisibility(View.GONE);
             allVenues_RV.setVisibility(View.GONE);
             kraken_LL.setVisibility(View.VISIBLE);
-            //krakenAPIs_RV
-            //krakenCryptos_RV.setVisibility(View.VISIBLE);
             krakenAPIs_RV.setVisibility(View.VISIBLE);
             AddKrakenAPI_FAB.setVisibility(View.VISIBLE);
             descargarFirebase_FAB.setVisibility(View.GONE);
             subirFirebase_FAB.setVisibility(View.GONE);
         } else {// RVcode == 4 todos
-            //initAdapters();
             initAdapterAll();
             search_and_num_id_LL.setVisibility(View.VISIBLE);
             map_LL.setVisibility(View.GONE);
@@ -548,7 +538,7 @@ public class GoogleMapsActivity extends AppCompatActivity
         }
     }
 
-    private void leerBBDDSQLite(){//ordenar
+    private void leerBBDDSQLite(){
         favsVenuesAL.clear();
         favsVenuesAL = gBD.getAllVenues("NAME", "ASC");
     }
@@ -563,7 +553,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
         cantidad_tv.setText(getResources().getString(R.string.cantidad1_tv) + "" + nearRadiusAL.size() + getResources().getString(R.string.cantidad2_tv));
 
-        cerca_adaptadorVenuesRV = new AdaptadorRecyclerViewVenue(nearRadiusAL, gBD,this, getSupportFragmentManager());
+        cerca_adaptadorVenuesRV = new AdaptadorRecyclerViewVenue(nearRadiusAL, gBD,this, getSupportFragmentManager(), false);
         cercaVenues_RV.setAdapter(cerca_adaptadorVenuesRV);
     }
 
@@ -574,7 +564,7 @@ public class GoogleMapsActivity extends AppCompatActivity
 
         cantidad_tv.setText(getResources().getString(R.string.cantidad1_tv) + "" + favsVenuesAL.size() + getResources().getString(R.string.cantidad2_tv));
 
-        favs_adaptadorVenuesRV = new AdaptadorRecyclerViewVenue(favsVenuesAL, gBD,this, getSupportFragmentManager());
+        favs_adaptadorVenuesRV = new AdaptadorRecyclerViewVenue(favsVenuesAL, gBD,this, getSupportFragmentManager(), true);
         favsVenues_RV.setAdapter(favs_adaptadorVenuesRV);
     }
 
@@ -585,7 +575,7 @@ public class GoogleMapsActivity extends AppCompatActivity
         cantidad_tv.setText(getResources().getString(R.string.cantidad1_tv) + "" + venuesAL.size() + getResources().getString(R.string.cantidad2_tv));
         ArrayList<Venue> copiaVenuesAL = new ArrayList<>();
         copiaVenuesAL.addAll(venuesAL);
-        all_adaptadorVenuesRV = new AdaptadorRecyclerViewVenue(copiaVenuesAL, gBD,this, getSupportFragmentManager());//allVenuesAL
+        all_adaptadorVenuesRV = new AdaptadorRecyclerViewVenue(copiaVenuesAL, gBD,this, getSupportFragmentManager(), false);
         allVenues_RV.setAdapter(all_adaptadorVenuesRV);
     }
 
@@ -639,18 +629,17 @@ public class GoogleMapsActivity extends AppCompatActivity
         System.out.println("xxxxxxxx, https://coinmap.org/api/v1/venues/?lat1=" + latMin + "&lat2=" + latMax + "&lon1=" + lngMin + "&lon2=" + lngMax + "&limit=100");
     }
 
-    //Revisar API 21
     private void createAL50km(ArrayList<Venue> nearBoxAL) {
         nearRadiusAL.clear();
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){// API >= 24
             nearRadiusAL = nearBoxAL.stream()
                     .filter(l -> haversine(l.getLat(), l.getLon(),
-                            coordenadasOrigen.latitude, coordenadasOrigen.longitude) <= 10)
+                            coordenadasOrigen.latitude, coordenadasOrigen.longitude) <= 50)
                     .collect(Collectors.toCollection(ArrayList::new));
         }
         else{// API < 24
             for(Venue venue: nearBoxAL){
-                if(haversine(venue.getLat(), venue.getLon(), coordenadasOrigen.latitude, coordenadasOrigen.longitude) <= 10){
+                if(haversine(venue.getLat(), venue.getLon(), coordenadasOrigen.latitude, coordenadasOrigen.longitude) <= 50){
                     nearRadiusAL.add(venue);
                 }
             }
@@ -774,7 +763,7 @@ public class GoogleMapsActivity extends AppCompatActivity
     // Abrir frqagmento para ver venue info
     private void crearDialogFragmentVenueInfo(Long id) {
         String url = "https://coinmap.org/api/v1/venues/" + id;
-        CommonUtils.jsonParse(url, favsVenuesAL, this, getSupportFragmentManager());
+        CommonUtils.jsonParse(url, favsVenuesAL, this, getSupportFragmentManager(), false);
         //jsonParse(url, 2);
     }
 
@@ -1211,8 +1200,7 @@ public class GoogleMapsActivity extends AppCompatActivity
      */
     // leer datos
     private ArrayList<Venue> descargarFavs() {
-        // DocRef
-        db.document("users/test@mail.es")
+        DocRef
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -1254,13 +1242,11 @@ public class GoogleMapsActivity extends AppCompatActivity
 
     //salvar datos
     private void subirFavs() {
-        //List<Venue> listofFavs = favsVenuesAL;
         leerBBDDSQLite();
         Map<String, Object> listaFavs = new HashMap<>();
         listaFavs.put("listFavs", favsVenuesAL);
 
-        //DocRef
-        db.document("users/test@mail.es")
+        DocRef
                 .set(listaFavs)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -1276,25 +1262,6 @@ public class GoogleMapsActivity extends AppCompatActivity
                 });
 
 
-    }
-
-
-    /**
-     * ***** *****   CODE DF_NEW EXCHANGE API   ***** *****
-     */
-    //No funciona
-    public void crearNewAPIBTN(View view) {//NO FUNCIONA
-        /*EditText apiName = (EditText) view.findViewById(R.id.NombreAPI_ET_id);
-        EditText key = (EditText) view.findViewById(R.id.keyAPI_ET_id);
-        TextView tv1 = view.findViewById(R.id.tv1);
-        tv1.setText(key.getText().toString());
-        String str = "apiName.getText().toString()";
-        Button boton_crear = view.findViewById(R.id.boton_crear_id);
-        mostrarToast("xxx"+tv1.getText());*/
-        //ExchangeAPI newAPI = new ExchangeAPI("hola", "key.getText().toString()", "secret.getText().toString()");
-        //apisAL.add(newAPI);
-        dialogFragmentNewAPI.dismiss();
-        initAdapterKrakenAPIs();
     }
 
 
@@ -1338,8 +1305,8 @@ public class GoogleMapsActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         //ELIMINAR DATOS
-        correoUsuario = null;
-        contraseñaUsuario = null;
+        correoUsuario = "";
+        contraseñaUsuario = "";
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putString("email", "");
         editor.putString("passw", "");
