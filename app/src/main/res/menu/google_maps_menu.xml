@@ -29,6 +29,11 @@
         </menu>
     </item>
     <item
+        android:id="@+id/cambiar_year_menu_id"
+        android:title="@string/cambiar_año"
+        android:icon="@drawable/ic_baseline_calendar_month_24"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/filter_id"
         android:title="Filtrar"
         android:icon="@drawable/ic_baseline_filter_alt_24"

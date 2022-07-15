@@ -144,7 +144,7 @@ public class DialogFragmentVenueInfo extends DialogFragment {
         boton_path.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((GoogleMapsActivity)getActivity()).peticionGoogle(new LatLng(venueDFFB.getLat(), venueDFFB.getLon()));
+                ((GoogleMapsActivity)getActivity()).peticionGoogle(venueDFFB);
                 dismiss();
             }
         });

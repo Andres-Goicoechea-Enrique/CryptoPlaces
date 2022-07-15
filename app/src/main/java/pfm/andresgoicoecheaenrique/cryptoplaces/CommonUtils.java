@@ -246,7 +246,7 @@ public abstract class CommonUtils {
     /**
      * Comprobar si el venue esta en la lista de favoritos
      */
-    private static boolean isVenueInFavsAL(ArrayList<Venue> favsVenuesAL, Venue venue) {
+    protected static boolean isVenueInFavsAL(ArrayList<Venue> favsVenuesAL, Venue venue) {
         Boolean resul = false;
         for (Venue v : favsVenuesAL) {
             if (v.getId() == venue.getId()) {

@@ -84,7 +84,6 @@
     <string name="toast_error_peticion_google">Error requesting Google:\ </string>
 
     <string name="toast_error_coordenadas_origen_null">Error, activate the location</string>
-    <!--<string name="toast_error_coordenadas_destino_null">Error, selecciona un establecimiento</string>-->
 
 
     <!-- Layout activity_google_maps.xml -->
@@ -114,12 +113,9 @@
     <string name="map_type_2">SATELLITE MAP</string>
     <string name="map_type_3">HYBRID MAP</string>
     <string name="map_type_4">TERRAIN MAP</string>
+    <string name="cambiar_año">Change creation year</string>
 
-<!--    <string name="descargar_firebase_txt">Download list from cloud</string>
-    <string name="subir_firebase_txt">Subir lista a la nube</string>-->
 
-    <!--<string name="mi_ubicacion_actual">Actualizar tiendas</string>&lt;!&ndash;quitar&ndash;&gt;
-    <string name="search">Buscar tienda</string>-->
     <string name="aboutUS">About</string>
     <string name="exit">Exit the application</string>
 
@@ -158,6 +154,14 @@
 
     <!-- DialogFragmentNewExchangeAPI.java -->
 
+    <string name="Input_Error_name">The name is too long.</string>
+    <string name="Input_Error_key1">The API key is too short</string>
+    <string name="Input_Error_key2">The API key is too long</string>
+    <string name="Input_Error_secret1">The secret key is too short</string>
+    <string name="Input_Error_secret2">The secret key is too long</string>
+
+    <string name="error_reading_data_from_form_new_API">Please check the entered data.</string>
+
     <!-- Layout DialogFragmentNewExchangeAPI.xml -->
     <string name="title_df_new_api">CREATE NEW API</string>
     <string name="BTN_crear">CREATE</string>
@@ -184,9 +188,23 @@
     <string name="checkbox_text_all">ALL</string>
     <string name="BTN_apply_filter">APPLY FILTER</string>
 
+    <!-- DialogFragmentSingleChoiceYear.java -->
+    <string name="year_title_txt">Select a year</string>
+    <string name="year_pos_txt">Ok</string>
+
+
+    <!-- Layout dialog_fragment_single_choice_year.xml -->
+
     <!-- ExampleActivity.java -->
 
     <!-- Layout activity_example.xml -->
 
+    <string name="toast_data_upload">Fav data saved successfully</string>
+    <string name="toast_data_download_error1">There is no fav list</string>
+    <string name="toast_data_download_error2">No data</string>
+    <string name="toast_data_download_error3">An error occurred while reading from Firebase</string>
+
+    <string name="toast_data_upload_true">Data uploaded</string>
+    <string name="toast_wait_location">Wait to get current location</string>
 
 </resources>

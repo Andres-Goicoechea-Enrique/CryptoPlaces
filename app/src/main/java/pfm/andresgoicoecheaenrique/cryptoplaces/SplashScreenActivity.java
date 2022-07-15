@@ -25,7 +25,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashScreenActivity.this, GoogleMapsActivity.class);//LoginActivity
+                Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);//GoogleMapsActivity
                 startActivity(intent);
                 finish();
             }
